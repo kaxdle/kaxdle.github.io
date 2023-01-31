@@ -1,0 +1,56 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+ol{
+    list-style-type: none;
+}
+.box_link{
+    border: 3px solid;
+    border-radius: 1.3em;
+    margin: 1em auto;
+    max-width: 300px;
+}
+ol li a{
+    line-height: 3.6;
+    display: block;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    border-top: 1px solid;
+}
+ol li:nth-child(1) a{
+    border-top: none;
+    border-radius: 1em 1em 0 0;
+}
+ol li:last-child a{
+    border-radius: 0 0 1em 1em;
+}
+
+li a:hover{
+    color: white;
+    background-color: #777;
+}
+.random_text{
+    margin-top: 3em;
+}
+.greeting{
+    text-align: center;
+    display: block;
+    width: 99vw;
+    background-color: cadetblue;
+    border-radius: 2em 2em;
+    position: fixed;
+
+}
+/**edit*/
+p{
+    max-width: 400px;
+}
+.sticky_chat_box{
+    float: right;
+    list-style-position: inside;
+    background-color: aqua;
+    position: sticky;
+    top: 7em;
+}

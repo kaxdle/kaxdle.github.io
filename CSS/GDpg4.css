@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.block{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: whitesmoke;
+    width: 200px;
+    height: 250px;
+    box-shadow: 2px 2px 5px;
+}
+.box_container{
+    display: grid;
+    margin-top: 2em;
+    justify-content: center;
+    grid-template-columns: repeat(6, 200px);
+    gap: 10px;
+}
+.block:hover{
+    border: 1px solid brown;
+}
+header{
+    background-color: rgb(250, 80, 13);
+    height: clamp(100px, 20vh, 300px);
+}
+.head_page{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.head_page h1{
+    color:wheat;
+}
+.search_bar{
+    width: 700px;
+    height: 30px;
+}
+/*group tag, can use beside where which dont have piority*/
+:is(h4, h3){
+    background-color: burlywood;
+}
+.link_head_page a:any-link , .seletion_tool a:any-link{
+    color: white;
+    text-decoration: none;
+}
+.link_head_page a:hover, .seletion_tool a:hover{
+    opacity: 0.6;
+}
+.top_page{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3em 2em;
+}
+.seletion_tool{
+    display: flex;
+    gap:10px;
+}
+.search_button{
+    transform: translateY(22%);
+}
+.phake_img{
+    width: 80%;
+    height: 60%;
+    background-color: aquamarine;
+}
+.prices{
+    color: red;
+    font-weight: bold;
+}
+/* .prices:hover{
+     animation-name: pop_prices;
+    animation-fill-mode: forwards; 
+    animation: pop_prices 1s forwards;
+}
+@keyframes pop_prices {
+    0%{
+        scale:0%;
+    }
+    100%{
+        scale: 100%;
+    }
+} */
