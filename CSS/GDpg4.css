@@ -20,7 +20,7 @@
     gap: 2%;
     justify-content: start;
 }
-a{
+.block p{
     text-decoration: none;
 }
 .block:hover{
