@@ -71,8 +71,6 @@ header{
 }
 .search_button{
     transform: translateY(22%);
-    width: 2em;
-    height: 2em;
 }
 .phake_img{
     width: 80%;
