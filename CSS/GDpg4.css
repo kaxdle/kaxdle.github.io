@@ -8,23 +8,25 @@
     justify-content: space-around;
     align-items: center;
     background-color: whitesmoke;
-    width: 200px;
-    height: 250px;
+    width: clamp(130px, 19vw, 200px);
+    margin: 2px;
+    height: clamp(180px, 30vw, 300px);
     box-shadow: 2px 2px 5px;
 }
 .box_container{
-    display: grid;
-    margin-top: 2em;
-    justify-content: center;
-    grid-template-columns: repeat(6, 200px);
-    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2em 5vh 0;
+    gap: 2%;
+    justify-content: start;
+    
 }
 .block:hover{
-    border: 1px solid brown;
+    background-color: hsla(0, 0%, 34%, 0.13);
 }
 header{
+    width: 100%;
     background-color: rgb(250, 80, 13);
-    height: clamp(100px, 20vh, 300px);
 }
 .head_page{
     display: flex;
@@ -35,7 +37,7 @@ header{
     color:wheat;
 }
 .search_bar{
-    width: 700px;
+    width: 40vw;
     height: 30px;
 }
 /*group tag, can use beside where which dont have piority*/
@@ -45,6 +47,9 @@ header{
 .link_head_page a:any-link , .seletion_tool a:any-link{
     color: white;
     text-decoration: none;
+}
+.link_head_page *{
+    white-space: nowrap;
 }
 .link_head_page a:hover, .seletion_tool a:hover{
     opacity: 0.6;
@@ -83,3 +88,4 @@ header{
         scale: 100%;
     }
 } */
+
