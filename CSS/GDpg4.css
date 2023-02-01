@@ -20,8 +20,12 @@
     gap: 2%;
     justify-content: start;
 }
-.block p{
+.box_container a,.box_container a:visited{
     text-decoration: none;
+    color: black;
+}
+.box_container a:active{
+    color: red;
 }
 .block:hover{
     background-color: hsla(0, 0%, 34%, 0.13);
