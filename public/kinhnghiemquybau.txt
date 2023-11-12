@@ -1,0 +1,2 @@
+1).Khi chuyển cơ sở dữ liệu nếu bị lỗi hoặc mất dữ liệu trong bảng CSDL đó thì dùng seeder
+trong Database để chèn dữ liệu mẫu
