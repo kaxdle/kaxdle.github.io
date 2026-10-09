@@ -368,13 +368,13 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 ### [Purism Core (SakuraMotion / Sakura2D)](https://github.com/SakuraMotion/PurismCore)
 - **Loại:** Track A · moc3-format (Cubism Core thay thế, clean-room C99)
 - **License / chi phí:** MIT (Copyright (c) 2026 Sakura Motion Project); miễn phí thương mại lẫn phi thương mại, không cần giấy phép Live2D cho Core; Framework Live2D dùng kèm vẫn theo điều khoản riêng.
-- **Nền tảng:** C99 thuần: Windows, macOS, Linux, iOS, Android, Emscripten (x86/x64/ARM/wasm32). Prebuilt lib, single-header PurismCoreBundle.h, WASM drop-in v5/v6, raylib viewer.
+- **Nền tảng:** C99 thuần: Windows, macOS, Linux, iOS, Android, Emscripten. Prebuilt lib, single-header PurismCoreBundle.h, WASM drop-in v5/v6, raylib viewer.
 - **Hoạt động gần nhất:** Commit 2026-08-21; v1.0.1 (2026-06-06), v1.1.0 (2026-08-21); 11 commits, 40 stars, 7 forks, 1 tác giả.
 - **Hỗ trợ moc3:** Có (MOC3 3.0 -> 5.3; ABI tương thích Cubism Core 5.1 (v5) và Core 6.0 / SDK 5.3 (v6)).
 - **Input -> Output:** Bytes .moc3 thô -> trạng thái model mỗi frame (parameters, parts, drawables, opacity, render orders, blend modes, offscreens v6). Không đọc model3.json, không render, không motion/physics/lipsync.
-- **Cách hoạt động:** Parse section MOC3 có kiểm tra biên, csmUpdateModel chạy keyform -> deformer -> art mesh -> render order, expose API csm* giống hệt Live2D Core. Bản Web build qua Emscripten ra một file JS với namespace `PurismCore`, không định nghĩa `Live2DCubismCore`.
-- **Cách dùng:** 1) Tải PurismCore-v1.1.0-Web.zip từ Releases. 2) Nạp Core/purismcore.js (v6) hoặc Core-v5/purismcore.js qua <script> trước renderer. 3) Thêm `window.Live2DCubismCore = PurismCore;` cho pixi-live2d-display / Cubism SDK for Web. 4) `Moc.fromArrayBuffer(buf)` rồi `Model.fromMoc(moc)`. 5) Ghi `parameters.values[i]`, gọi `model.update()` mỗi frame. 6) Native: thay thư viện Live2DCubismCore đúng ABI.
-- **Trạng thái xác minh:** Có sửa: LICENSE ghi 'Copyright (c) 2026', không phải '2025, 2026'; zip Web 353.307 bytes (purismcore.js 257.887 bytes) còn có README.md/LICENSE/SDKINFO-WEB.txt; COMPAT.md gọi là Core 5.1 và 6.0.
+- **Cách hoạt động:** Parse section MOC3 có kiểm tra biên, csmUpdateModel chạy keyform -> deformer -> art mesh -> render order, expose API csm* giống Live2D Core. Bản Web build qua Emscripten ra file JS với namespace `PurismCore`, không định nghĩa `Live2DCubismCore`.
+- **Cách dùng:** 1) Tải PurismCore-v1.1.0-Web.zip từ Releases. 2) Nạp Core/purismcore.js (v6) hoặc Core-v5/purismcore.js qua <script> trước renderer. 3) Thêm `window.Live2DCubismCore = PurismCore;` cho framework web. 4) `Moc.fromArrayBuffer(buf)` rồi `Model.fromMoc(moc)`. 5) Ghi `parameters.values[i]`, gọi `model.update()` mỗi frame. 6) Native: thay thư viện Live2DCubismCore đúng ABI.
+- **Trạng thái xác minh:** Có sửa: LICENSE ghi 'Copyright (c) 2026', không phải '2025, 2026'; zip Web 353.307 bytes (purismcore.js 257.887 bytes) còn có README.md/LICENSE/SDKINFO-WEB.txt; COMPAT.md gọi là Core 5.1/6.0.
 - **Nguồn:** https://github.com/SakuraMotion/PurismCore · https://github.com/SakuraMotion/PurismCore/releases
 
 ### [UnityLive2DExtractor (Perfare)](https://github.com/Perfare/UnityLive2DExtractor)
@@ -391,13 +391,13 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 
 ### [unity-rs (seiunx-dev)](https://github.com/seiunx-dev/unity-rs)
 - **Loại:** Track A · moc3-format (trích xuất Live2D từ Unity bundle, Rust headless)
-- **License / chi phí:** MIT (LICENSE giữ dòng bản quyền upstream AssetStudio). Miễn phí trên crates.io (unity-rs-core, unity-rs-cli) và PyPI (unity-rs); addon Node chưa lên npm, tự build. Model trích xuất vẫn theo license game.
+- **License / chi phí:** MIT (LICENSE giữ dòng bản quyền upstream AssetStudio). Miễn phí trên crates.io (unity-rs-core, unity-rs-cli) và PyPI (unity-rs); addon Node chưa lên npm. Model trích xuất vẫn theo license game.
 - **Nền tảng:** Thư viện Rust (MSRV 1.88) + CLI Linux/Windows/macOS; wheel Python 3.9+ (x86-64/ARM64); addon Node napi tùy chọn. Headless, không cần .NET.
 - **Hoạt động gần nhất:** Commit 2026-10-09; 0.6.0 lên crates.io và PyPI 2026-10-08; publish đầu 2026-08-26; 423 commits, 2 stars, 1 fork, không có GitHub release.
 - **Hỗ trợ moc3:** Có (xuất .moc3 đã verify từ MonoBehaviour CubismMoc).
 - **Input -> Output:** Unity bundle / serialized file / thư mục *_Data có object Cubism SDK for Unity -> `live2d`: .moc3 thô; `live2d-package`: gói đủ .moc3, PNG, model3.json, exp3, motion3 (tùy chọn Bezier), physics3, pose3, cdi3 cho runtime Cubism 3/4/5. Không render, không điều khiển model.
 - **Cách hoạt động:** Port Rust headless của AssetStudio (core + CLI + PyO3 + napi): duyệt SerializedFile, resolve MonoScript, chiếu TypeTree có giới hạn để lấy payload `_moc`, gom expression/motion/physics/pose/texture rồi chuyển sang JSON Cubism; không ghi đè file có sẵn.
-- **Cách dùng:** 1) Cài Rust 1.88+ (hoặc `pip install unity-rs`; Node: `cd crates/unity-rs-node && npm install && npm run build:debug`). 2) `cargo install unity-rs-cli`. 3) `unity-rs live2d-package bundle.ab out/ --l2d-smooth-motions`. 4) Kiểm tra `out/<model>/<model>.model3.json` cùng textures/motions. 5) Nạp vào pixi-live2d-display hoặc Cubism SDK for Web.
+- **Cách dùng:** 1) Cài Rust 1.88+ (hoặc `pip install unity-rs`; Node: `cd crates/unity-rs-node && npm install && npm run build:debug`). 2) `cargo install unity-rs-cli`. 3) `unity-rs live2d-package bundle.ab out/ --l2d-smooth-motions`. 4) Kiểm tra `out/<model>/<model>.model3.json` cùng textures/motions. 5) Nạp vào runtime Cubism bất kỳ.
 - **Trạng thái xác minh:** Có sửa: addon Node không có trên npm (tự build); API Python là method trên `UnityRs(path)`; PyPI publish đầu là 0.2.0 (2026-08-26); LICENSE mang dòng bản quyền AssetStudio.
 - **Nguồn:** https://github.com/seiunx-dev/unity-rs · https://crates.io/api/v1/crates/unity-rs-core
 
@@ -406,14 +406,14 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 
 ### [VTube Studio <-> Cubism Editor communication](https://github.com/DenchiSoft/VTubeStudio/wiki/Live2D-Cubism-Editor-Communication)
 - **Loại:** Track A · vts-api (VTS nối Cubism Editor External Application Integration API)
-- **License / chi phí:** VTube Studio đóng mã, miễn phí trên Steam (DLC Remove Watermark $14.99; mobile trả một lần); repo tài liệu DenchiSoft/VTubeStudio và sample Live2D-Garage MIT. Cubism Editor độc quyền, giá chưa kiểm tra.
-- **Nền tảng:** VTS: Windows/macOS (Steam client chỉ còn hỗ trợ Windows 10+ dù store ghi Win 7), iOS, Android. Cubism Editor desktop; cùng PC hoặc qua LAN ('Editor runs on remote PC').
-- **Hoạt động gần nhất:** Wiki sửa cuối 2024-07-16; repo VTubeStudio commit 2026-09-28, 1.3k stars; docs Editor API: spec 2024-10-24, hàm 2025-08-26 (0.9.0 -> 1.0.1); sample repo 9 stars, 5 commits.
+- **License / chi phí:** VTube Studio đóng mã, miễn phí trên Steam (DLC Remove Watermark $14.99; mobile trả một lần); repo DenchiSoft/VTubeStudio và sample Live2D-Garage MIT. Cubism Editor độc quyền, giá chưa kiểm tra.
+- **Nền tảng:** VTS: Windows/macOS (Steam client chỉ còn hỗ trợ Windows 10+ dù store ghi Win 7), iOS, Android. Cubism Editor desktop, cùng PC hoặc qua LAN.
+- **Hoạt động gần nhất:** Wiki sửa cuối 2024-07-16; repo VTubeStudio commit 2026-09-28, 1.3k stars; docs Editor API 2024-10-24 / 2025-08-26 (0.9.0 -> 1.0.1); sample repo 9 stars.
 - **Hỗ trợ moc3:** Có (model đã rig, cùng parameter ID ở VTS và Editor).
-- **Input -> Output:** Model trong VTS + tracking -> mỗi frame toàn bộ parameter đẩy sang Editor (SetParameterValues) để preview physics và ghi keyframe Animation; VTS bắt event export và copy model mới vào Live2DModels.
-- **Cách hoạt động:** VTS làm plugin của Editor: WebSocket cổng 22033, RegisterPlugin, lưu token sau khi người dùng tick 'Allow', rồi stream parameter theo FPS của VTS. Spec API yêu cầu chờ response trước request kế, buffer tạm hủy sau 0,5 s; VTS có API riêng ở ws://localhost:8001.
-- **Cách dùng:** 1) Cài Cubism Editor 5 và VTube Studio. 2) Editor: File -> External Application Integration Settings, cổng 22033, bật toggle. 3) Mở project trong Editor, nạp model export vào VTS. 4) VTS settings tab 1 bật kết nối Editor, tick 'Allow' trong Editor. 5) Trong Animation view chọn track model, bật hotkey 'Live2D Editor API param sync', giữ Snapshot/Record để ghi keyframe.
-- **Trạng thái xác minh:** Có sửa: Steam client chỉ hỗ trợ Windows 10+ dù store ghi Win 7; chi tiết buffer 0,5 s và chờ response nằm ở trang spec API, không phải trang danh sách hàm; thêm số liệu sample repo.
+- **Input -> Output:** Model trong VTS + tracking -> mỗi frame toàn bộ parameter đẩy sang Editor (SetParameterValues) để preview physics và ghi keyframe; VTS bắt event export và copy model mới vào Live2DModels.
+- **Cách hoạt động:** VTS làm plugin của Editor: WebSocket cổng 22033, RegisterPlugin, lưu token sau khi người dùng tick 'Allow', rồi stream parameter theo FPS của VTS. Spec API yêu cầu chờ response trước request kế, buffer tạm hủy sau 0,5 s.
+- **Cách dùng:** 1) Cài Cubism Editor 5 và VTube Studio. 2) Editor: File -> External Application Integration Settings, cổng 22033, bật toggle. 3) Mở project trong Editor, nạp model vào VTS. 4) VTS settings tab 1 bật kết nối Editor, tick 'Allow'. 5) Trong Animation view chọn track model, bật hotkey 'Live2D Editor API param sync', giữ Snapshot/Record.
+- **Trạng thái xác minh:** Có sửa: Steam client chỉ hỗ trợ Windows 10+ dù store ghi Win 7; chi tiết buffer 0,5 s và chờ response ở trang spec API, không phải trang danh sách hàm.
 - **Nguồn:** https://github.com/DenchiSoft/VTubeStudio · https://github.com/Live2D-Garage/CubismExternalAppPluginSamples
 
 
@@ -422,24 +422,24 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 ### [LumaStage (Lendic42)](https://github.com/Lendic42/LumaStage)
 - **Loại:** Track A · face-tracking (studio VTuber mã nguồn mở: Electron desktop + tracker iPhone Face ID)
 - **License / chi phí:** GPL-3.0-only; Cubism Core không bundle, app tải từ CDN Live2D sau khi chấp nhận điều khoản. Miễn phí, không tài khoản/cloud; cần iPhone Face ID và tự ký IPA (AltStore/Sideloadly).
-- **Nền tảng:** Desktop Windows/macOS (Electron 43, React 19, Pixi.js 7.4, pixi-live2d-display 0.5.0-beta); tracker iOS SwiftUI + ARKit; virtual camera Windows (Unity Capture). Không phải web component.
+- **Nền tảng:** Desktop Windows/macOS (Electron 43, React 19, Pixi.js 7.4, pixi-live2d-display 0.5.0-beta); tracker iOS SwiftUI + ARKit; virtual camera Windows. Không phải web component.
 - **Hoạt động gần nhất:** 86 commits trong 2026-07-17/18; 5 release v0.1.0 -> v0.2.1 cùng ngày 18/07/2026; 1 star, 0 fork; im lặng ~3 tháng.
 - **Hỗ trợ moc3:** Có (Cubism 3/4/5; chỉ nhận Core 5 render-order ABI, Core 6 bị từ chối).
 - **Input -> Output:** Thư mục model Cubism 3/4/5 (`*.vtube.json` được import) + frame ARKit (52 blendshape) qua WebSocket LAN cổng 39510 + plugin qua VTube Studio Plugin API `ws://127.0.0.1:8001` -> avatar trong cửa sổ Electron, overlay trong suốt cho OBS, virtual webcam 'LumaStage Camera' (Windows). Không xuất video.
 - **Cách hoạt động:** Desktop pair với iPhone, làm mượt frame (28 ms), map input->parameter (FaceAngleX/Y/Z -> ParamAngleX/Y/Z, MouthOpen -> ParamMouthOpenY...) rồi render bằng pixi-live2d-display; `packages/vts-api` tái hiện phần lớn VTube Studio Plugin API (InjectParameterDataRequest, HotkeyTriggerRequest...); không có lipsync micro.
-- **Cách dùng:** 1) Tải bản Windows Setup.exe hoặc macOS .dmg (v0.2.1). 2) Import thư mục chứa `*.model3.json` (kèm `*.vtube.json`); lần đầu chấp nhận license để tải Cubism Core 5. 3) Ký IPA tracker, cài lên iPhone Face ID, pair bằng mã 6 số (cùng Wi-Fi hoặc IP:39510). 4) Chỉnh mapping, bật overlay OBS hoặc virtual cam. 5) Code: client VTS Plugin API tới `ws://127.0.0.1:8001`, gửi InjectParameterDataRequest.
+- **Cách dùng:** 1) Tải bản Windows Setup.exe hoặc macOS .dmg (v0.2.1). 2) Import thư mục chứa `*.model3.json` (kèm `*.vtube.json`); lần đầu chấp nhận license để tải Cubism Core 5. 3) Ký IPA tracker, cài lên iPhone Face ID, pair bằng mã 6 số (cùng Wi-Fi hoặc IP:39510). 4) Chỉnh mapping, bật overlay OBS hoặc virtual cam. 5) Code: client VTS Plugin API tới `ws://127.0.0.1:8001`.
 - **Trạng thái xác minh:** Đã xác minh
 - **Nguồn:** https://github.com/Lendic42/LumaStage · https://github.com/Lendic42/LumaStage/releases
 
 ### [SandoitchiBridge (an1by)](https://github.com/an1by/SandoitchiBridge)
-- **Loại:** Track A · face-tracking (cầu iPhone ARKit -> tham số tùy chỉnh VTube Studio, kiểu VBridger)
-- **License / chi phí:** GPL-3.0 (chỉ qua file LICENSE từ upstream ovROG/rusty-bridge; README không ghi). Miễn phí, không có binary, tự build; cần VTube Studio và iPhone chạy app VTube Studio iOS hoặc iFacialMocap (trả phí).
-- **Nền tảng:** Thực tế chỉ Windows: workspace Rust 2021 (CLI `sandoitchi_bridge`, thư viện `service`, `ui` native-windows-gui), kèm `build.bat`/`firewall.bat`, ra hai file .exe (CLI và UI tray).
-- **Hoạt động gần nhất:** Commit cuối 2025-10-27; 0.3.0 trong Cargo.toml 2025-07-21; iFacialMocap từ 2025-07-09; 11 commits, 3 stars, 2 forks, không release.
+- **Loại:** Track A · face-tracking (cầu iPhone ARKit -> tham số tùy chỉnh VTube Studio)
+- **License / chi phí:** GPL-3.0 (file LICENSE từ upstream ovROG/rusty-bridge; README không ghi). Miễn phí, không có binary; cần VTube Studio và iPhone chạy app VTS iOS hoặc iFacialMocap (trả phí).
+- **Nền tảng:** Thực tế chỉ Windows: workspace Rust 2021 (CLI `sandoitchi_bridge`, thư viện `service`, `ui` native-windows-gui), kèm `build.bat`/`firewall.bat`, ra hai .exe (CLI và UI tray).
+- **Hoạt động gần nhất:** Commit cuối 2025-10-27; 0.3.0 ngày 2025-07-21; iFacialMocap từ 2025-07-09; 11 commits, 3 stars, 2 forks, không release.
 - **Hỗ trợ moc3:** Không áp dụng (không chạm vào model; VTube Studio render moc3).
-- **Input -> Output:** Frame tracking iPhone từ app VTube Studio iOS (`iOSTrackingDataRequest`, UDP 21412) hoặc iFacialMocap (UDP 49983 + TCP 49986); biến HeadRot/HeadPos, 52 blendshape ARKit, FaceFound, Wave1000, PingPong5000 -> tham số tùy chỉnh inject vào VTube Studio qua Plugin API `ws://localhost:8001`. Không render gì.
-- **Cách hoạt động:** Hai thread nối bằng mpsc: thread tracking parse frame thành `TrackingResponse`; thread plugin VTS (tungstenite) authenticate, đăng ký output bằng ParameterCreationRequest, mỗi frame đánh giá biểu thức `func` bằng crate `evalexpr`, clamp min/max rồi InjectParameterDataRequest.
-- **Cách dùng:** 1) Cài Rust trên Windows, chạy `build.bat` rồi `firewall.bat`. 2) Cài VTube Studio, bật Plugin API; app VTS iOS hoặc iFacialMocap trên iPhone cùng LAN. 3) Viết JSON transformations `[{name, func, min, max, defaultValue}]` theo README (lưu ý README dùng nhầm Wave10000). 4) Chạy `sandoitchi_bridge.exe -c cfg.json -p <IP iPhone> -t vts|ifm` hoặc bản UI. 5) Chấp nhận plugin trong VTube Studio rồi map input tùy chỉnh sang parameter Live2D.
+- **Input -> Output:** Frame tracking iPhone từ app VTS iOS (UDP 21412) hoặc iFacialMocap (UDP 49983 + TCP 49986); biến HeadRot/HeadPos, 52 blendshape ARKit, FaceFound, Wave1000, PingPong5000 -> tham số tùy chỉnh inject vào VTube Studio qua Plugin API `ws://localhost:8001`.
+- **Cách hoạt động:** Hai thread (mpsc): thread tracking parse frame thành `TrackingResponse`; thread plugin VTS authenticate, đăng ký output (ParameterCreationRequest), mỗi frame đánh giá `func` bằng crate `evalexpr`, clamp rồi InjectParameterDataRequest.
+- **Cách dùng:** 1) Cài Rust trên Windows, chạy `build.bat` rồi `firewall.bat`. 2) Cài VTube Studio, bật Plugin API; app VTS iOS hoặc iFacialMocap trên iPhone cùng LAN. 3) Viết JSON transformations `[{name, func, min, max, defaultValue}]` theo README. 4) Chạy `sandoitchi_bridge.exe -c cfg.json -p <IP> -t vts|ifm` hoặc bản UI. 5) Chấp nhận plugin trong VTS rồi map input sang parameter Live2D.
 - **Trạng thái xác minh:** Có sửa: cờ CLI là `-f/--face_search_timeout <ms>` (mặc định 3000) và `-d/--config-reload-delay` mặc định 0 = không hot-reload.
 - **Nguồn:** https://github.com/an1by/SandoitchiBridge · https://github.com/ovROG/rusty-bridge
 
@@ -451,74 +451,74 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 - **Hỗ trợ moc3:** Có (Cubism 3/4 qua `pixi-live2d-display/cubism4`; Cubism 2 không chạy vì thiếu live2d.min.js).
 - **Input -> Output:** Webcam -> MediaPipe `FaceLandmarker` (478 landmark + 52 blendshape); model qua URL `.model3.json` (catalog 6 mẫu hot-link từ jsDelivr, hoặc Custom Live2D Loader) -> canvas Pixi.js v7 nền trong suốt/chroma cho OBS. Không xuất file.
 - **Cách hoạt động:** `tracker.ts` chạy MediaPipe WASM; `solver.ts` đổi landmark/blendshape thành yaw/pitch/roll, eyeBlink, mouthOpen; `smoother.ts` lerp; `riggingStore.svelte.ts` gộp override/preset/pose loop; `CanvasStage.svelte` ghi `coreModel.setParameterValueById` mỗi tick. Không lipsync audio, exp3 hay API ngoài.
-- **Cách dùng:** 1) Cài Bun 1.2+, clone repo. 2) `bun install` rồi `bun run dev --open` (localhost:5173). 3) Cho phép camera; chọn model mẫu hoặc dán URL `.model3.json` vào Custom Live2D Loader. 4) Calibrate, chỉnh smoothing, thử slider/preset. 5) Theme Transparent/Chroma cho OBS Browser Source hoặc `bun run build`.
+- **Cách dùng:** 1) Cài Bun 1.2+, clone repo. 2) `bun install` rồi `bun run dev --open` (localhost:5173). 3) Cho phép camera; chọn model mẫu hoặc dán URL `.model3.json` vào Custom Live2D Loader. 4) Calibrate, chỉnh smoothing, thử preset. 5) Theme Transparent/Chroma cho OBS hoặc `bun run build`.
 - **Trạng thái xác minh:** Có sửa: model mẫu không bundle mà hot-link từ jsDelivr (static/live2d chỉ có live2dcubismcore.min.js); Cubism 2 không chạy được như đã ship; file store là src/lib/stores/riggingStore.svelte.ts.
 - **Nguồn:** https://github.com/RifkyA911/mirunova-live
 
 ### [nizima LIVE (+ nizima LIVE Plugin API / Script API, nizima LIVE TRACKER)](https://nizimalive.com/en/)
-- **Loại:** Track A · face-tracking / audio-tracking / app desktop có LLM và Plugin API
-- **License / chi phí:** Độc quyền (cần tài khoản nizima); repo Plugin/Script API không ghi license. Free: watermark, camera tối đa 40 phút; Indie JPY 550/tháng (doanh thu < JPY 10M); Business JPY 3.300/tháng; không hoàn tiền. TRACKER iOS miễn phí.
-- **Nền tảng:** Windows 11 64-bit, macOS Apple Silicon (2.6.0 bỏ Intel). TRACKER: iPhone X+, App Store ghi iOS 16.0+ còn Live2D ghi 14.0+. OBS plugin chỉ Windows; cần internet xác thực.
-- **Hoạt động gần nhất:** 2.7.1 ngày 2026-08-24; 2.7.0 (AI assistant + audio tracking) 2026-08-12; 2.6.1 hỗ trợ Cubism 5.3 (2026-04-08). Repo Plugin API commit cuối 2026-03-31 (API 1.2.0), 6 stars.
+- **Loại:** Track A · face-tracking / audio-tracking / app desktop có LLM, Plugin API
+- **License / chi phí:** Độc quyền (cần tài khoản nizima); repo API không ghi license. Free: watermark, camera tối đa 40 phút; Indie JPY 550/tháng (doanh thu < JPY 10M); Business JPY 3.300/tháng. TRACKER iOS miễn phí.
+- **Nền tảng:** Windows 11, macOS Apple Silicon (2.6.0 bỏ Intel). TRACKER: iPhone X+, App Store ghi iOS 16.0+, Live2D ghi 14.0+. OBS plugin chỉ Windows.
+- **Hoạt động gần nhất:** 2.7.1 ngày 2026-08-24; 2.7.0 (AI assistant, audio tracking) 2026-08-12; 2.6.1 hỗ trợ Cubism 5.3 (2026-04-08). Repo Plugin API commit cuối 2026-03-31 (1.2.0).
 - **Hỗ trợ moc3:** Có (runtime native Live2D, hỗ trợ Cubism 5.3).
-- **Input -> Output:** .model3.json + webcam/iPhone ARKit, micro (lip-sync; 2.7 Audio Tracking không cần camera), mocopi, phím tắt, plugin WebSocket, script JS, chat AI (ChatGPT/Gemini/local LLM) -> avatar trong cửa sổ, OBS plugin/Spout2/Syphon, event NotifyFrameUpdated. Không có runtime web.
-- **Cách hoạt động:** App chính thức của Live2D map tracking vào parameter; server WebSocket ws://localhost:22022 (API 1.0.0 -> 1.2.0, RegisterPlugin -> Token) cho SetCubismParameterValues, StartMotion, StartExpression, TriggerModelHotkey; Script API JS chạy trong app. 2.7 thêm AI assistant (UI tiếng Nhật), không có API đẩy audio vào lip-sync.
-- **Cách dùng:** 1) Tạo tài khoản nizima, cài nizima LIVE 2.7.x. 2) Model list > '+' > chọn .model3.json. 3) Chọn webcam, pair nizima LIVE TRACKER hoặc bật Audio Tracking; chỉnh Parameter settings. 4) Settings > Plug-ins bật plugin; mở ws://localhost:22022/, RegisterPlugin, lưu Token, rồi gọi StartMotion / StartExpression. 5) LLM: Model list > AI Assistant > nhập URL, model, API key; xuất qua OBS plugin hoặc Spout2/Syphon.
-- **Trạng thái xác minh:** Có sửa: iOS tối thiểu mâu thuẫn (App Store 16.0+, Live2D 14.0+); changelog Plugin API là 1.0.0/1.0.1/1.1.0/1.2.0 (README còn ghi 2.0.0); Plugin API khởi tạo đầu 2024 thay cho 'Since 2.4/1.x'.
+- **Input -> Output:** .model3.json + webcam/iPhone ARKit, micro (Audio Tracking không cần camera), plugin WebSocket, script JS, chat AI (ChatGPT/Gemini/local LLM) -> avatar trong cửa sổ, OBS plugin/Spout2/Syphon, event NotifyFrameUpdated. Không có runtime web.
+- **Cách hoạt động:** App chính thức của Live2D; server WebSocket ws://localhost:22022 (API 1.0.0 -> 1.2.0, RegisterPlugin -> Token) cho SetCubismParameterValues, StartMotion, StartExpression. 2.7 thêm AI assistant (UI tiếng Nhật), không có API đẩy audio vào lip-sync.
+- **Cách dùng:** 1) Tạo tài khoản nizima, cài nizima LIVE 2.7.x. 2) Model list > '+' > chọn .model3.json. 3) Chọn webcam, pair TRACKER hoặc bật Audio Tracking. 4) Settings > Plug-ins bật plugin; mở ws://localhost:22022/, RegisterPlugin, lưu Token, gọi StartMotion. 5) AI Assistant: nhập URL, model, API key; xuất qua OBS plugin hoặc Spout2.
+- **Trạng thái xác minh:** Có sửa: iOS tối thiểu mâu thuẫn (App Store 16.0+, Live2D 14.0+); changelog Plugin API là 1.0.0/1.0.1/1.1.0/1.2.0 (README còn ghi 2.0.0); Plugin API khởi tạo đầu 2024.
 - **Nguồn:** https://nizimalive.com/en/ · https://nizimalive.com/en/pricing/
 
 
 ### Category: lipsync
 
 ### [Cubism SDK MotionSync Plugin for Web (Live2D/CubismWebMotionSyncComponents)](https://github.com/Live2D/CubismWebMotionSyncComponents)
-- **Loại:** Track A · lipsync (plugin motion-sync audio cho Cubism SDK for Web)
-- **License / chi phí:** Framework + samples: Live2D Open Software License; MotionSync Core (chỉ trong gói tải): Proprietary Software License; doanh thu > JPY 10M cần Cubism SDK Release License; CRI LipSync royalty-free. Tải miễn phí.
-- **Nền tảng:** Chrome/Edge/Firefox trên Windows/macOS/Android/iOS, Safari 18.3.1; dev Node.js 22.14.0/23.10.0, Vite 6; cần Cubism SDK for Web 5-r.3 đặt cạnh; micro cần HTTPS.
-- **Hoạt động gần nhất:** Commit cuối 2025-03-27 (tag 5-r.2); 5-r.1 2024-05-30; beta đầu 2023-11-30; 4 commits, 11 stars, 2 forks; trang docs có banner '5.4 alpha'.
-- **Hỗ trợ moc3:** Có (model có FileReferences.MotionSync -> .motionsync3.json từ Cubism Editor 5.0+; model 4.2 thêm key tay).
-- **Input -> Output:** .motionsync3.json + PCM audio (micro qua getUserMedia/AudioContext, 48 kHz; .wav khai báo 'Sound' trong model3.json; hoặc csmVector<number> bất kỳ, kể cả TTS) -> ghi mỗi frame vào parameter miệng/nguyên âm A-I-U-E-O; không xuất file.
-- **Cách hoạt động:** `CubismMotionSync.create()` parse JSON motion-sync và khởi tạo bộ xử lý CRI LipSync (WASM MotionSync Core); mỗi frame `updateParameters()` tiêu thụ PCM đã đẩy bằng `setSoundBuffer()`, phân tích viseme rồi ghi parameter. Chỉ EngineType_Cri.
-- **Cách dùng:** 1) Tải Cubism SDK for Web 5-r.3 và gói MotionSync Plugin for Web (có Core) từ trang download Live2D. 2) Đặt hai thư mục cạnh nhau. 3) Trong Cubism Editor 5.0+ export .motionsync3.json, thêm "MotionSync" vào FileReferences. 4) `CubismMotionSync.startUp(); initialize(); ms = create(model, buf, size, 48000)`; mỗi frame `ms.setSoundBuffer(0, samples, 0)` rồi `ms.updateParameters(model, dt)`. 5) Doanh thu lớn: ký Release License.
-- **Trạng thái xác minh:** Có sửa: Safari 18.3.1; trang download không ghi phiên bản, banner '5.4 alpha' ở trang docs; thêm `CubismMotionSync.cleanUp()`; nên coi là 'maintained, release thưa' thay vì 'active'.
+- **Loại:** Track A · lipsync (plugin motion-sync cho Cubism SDK for Web)
+- **License / chi phí:** Framework: Live2D Open Software License; MotionSync Core (chỉ trong gói tải): Proprietary License; doanh thu > JPY 10M cần Cubism SDK Release License; CRI LipSync royalty-free. Tải miễn phí.
+- **Nền tảng:** Chrome/Edge/Firefox/Safari 18.3.1 trên desktop và mobile; dev Node.js 22.14.0/23.10.0, Vite 6; cần Cubism SDK for Web 5-r.3 đặt cạnh; micro cần HTTPS.
+- **Hoạt động gần nhất:** Commit cuối 2025-03-27 (tag 5-r.2); 5-r.1 2024-05-30; beta đầu 2023-11-30; 4 commits, 11 stars, 2 forks.
+- **Hỗ trợ moc3:** Có (cần FileReferences.MotionSync -> .motionsync3.json từ Cubism Editor 5.0+; model 4.2 thêm key tay).
+- **Input -> Output:** .motionsync3.json + PCM audio (micro qua getUserMedia, 48 kHz; .wav khai báo 'Sound' trong model3.json; hoặc PCM bất kỳ, kể cả TTS) -> ghi mỗi frame vào parameter nguyên âm A-I-U-E-O; không xuất file.
+- **Cách hoạt động:** `CubismMotionSync.create()` parse JSON motion-sync và khởi tạo bộ xử lý CRI LipSync (WASM Core); mỗi frame `updateParameters()` tiêu thụ PCM đã đẩy bằng `setSoundBuffer()`, phân tích viseme rồi ghi parameter. Chỉ EngineType_Cri.
+- **Cách dùng:** 1) Tải Cubism SDK for Web 5-r.3 và gói MotionSync Plugin for Web (có Core) từ Live2D. 2) Đặt hai thư mục cạnh nhau. 3) Cubism Editor 5.0+ export .motionsync3.json, thêm "MotionSync" vào FileReferences. 4) `CubismMotionSync.startUp(); initialize(); ms = create(model, buf, size, 48000)`; mỗi frame `ms.setSoundBuffer(0, samples, 0)` rồi `ms.updateParameters(model, dt)`.
+- **Trạng thái xác minh:** Có sửa: Safari 18.3.1; trang download không ghi phiên bản, banner '5.4 alpha' ở trang docs; thêm `CubismMotionSync.cleanUp()`; 'maintained' hơn là 'active'.
 - **Nguồn:** https://github.com/Live2D/CubismWebMotionSyncComponents
 
 
 ### Category: llm-driven
 
 ### [Charivo (zeikar/charivo, @charivo/render-live2d, @charivo/avatar)](https://github.com/zeikar/charivo)
-- **Loại:** Track A — framework TypeScript mô-đun do LLM điều khiển (LLM/TTS/STT/realtime + Live2D renderer)
-- **License / chi phí:** MIT, trừ @charivo/render-live2d (code MIT + Cubism Core 5-r.4 theo Live2D Proprietary License + Framework theo Open Software License). Miễn phí; tự trả phí LLM/TTS/STT; Live2D Publication License nếu vượt ngưỡng doanh thu.
+- **Loại:** Track A — framework TypeScript mô-đun do LLM điều khiển, kèm Live2D renderer
+- **License / chi phí:** MIT, trừ @charivo/render-live2d (code MIT + Cubism Core 5-r.4 theo Live2D Proprietary License). Miễn phí; tự trả phí LLM/TTS/STT; Live2D Publication License nếu vượt ngưỡng doanh thu.
 - **Nền tảng:** Browser (WebGL, TypeScript); package server cần Node.js >= 22; ví dụ Next.js; demo charivo.vercel.app.
-- **Hoạt động gần nhất:** commit 2026-10-06; render-live2d 0.6.6 và core 0.37.0 publish cùng ngày (43 phiên bản từ 2025-10-14); 892 commit, 23 stars, 2 forks.
+- **Hoạt động gần nhất:** commit 2026-10-06; render-live2d 0.6.6 và core 0.37.0 publish cùng ngày (43 phiên bản); 892 commit, 23 stars, 2 forks.
 - **Hỗ trợ moc3:** Có (Cubism SDK for Web 5-r.4 đóng gói sẵn)
-- **Input -> Output:** Model Cubism (.model3.json + moc3/exp3/motion3), text qua userSay(), mic qua STT/realtime OpenAI/Gemini, tool call của LLM, RMS audio TTS -> model render trên canvas với expression, motion, gaze, lip-sync; không xuất file.
-- **Cách hoạt động:** @charivo/avatar sinh tool setExpression/playMotion/lookAt từ catalog của model; LLM gọi tool -> event avatar:* -> render manager áp lên model. Audio TTS được phân tích RMS và ghi vào tham số LipSync mỗi frame.
-- **Cách dùng:** 1) pnpm add @charivo/{core,llm,tts,render,render-live2d,avatar}. 2) Copy thư mục model vào public/live2d/Name/. 3) createLive2DRenderer({canvas}) -> createRenderManager -> loadModel('/live2d/Name/Name.model3.json'). 4) createCharivo({renderer, llm: createLLMManager(remote '/api/chat', {tools: createAvatarControlTools(catalog)}), tts, character}). 5) Server (Laravel hoặc @charivo/server): POST /api/chat nhận {messages, tools} trả {success, message, toolCalls?}; /api/tts trả audio.
-- **Trạng thái xác minh:** Có sửa: chỉ client OpenClaw trong browser là dev-only; Node >= 22 khai báo ở @charivo/llm và repo root, không ở packages/server; PR #73 cho renderer tự cấp catalog; Iki: MIT, 14 stars, 593 commit, không import moc3.
-- **Nguồn:** https://github.com/zeikar/charivo · https://registry.npmjs.org/@charivo%2Frender-live2d · https://registry.npmjs.org/@charivo%2Fcore
+- **Input -> Output:** Model Cubism (.model3.json + moc3/exp3/motion3), text, mic (STT/realtime), tool call của LLM, RMS audio TTS -> model trên canvas với expression, motion, gaze, lip-sync; không xuất file.
+- **Cách hoạt động:** @charivo/avatar sinh tool setExpression/playMotion/lookAt từ catalog; LLM gọi tool -> event avatar:* -> render manager áp lên model; audio TTS phân tích RMS ghi vào tham số LipSync mỗi frame.
+- **Cách dùng:** 1) pnpm add @charivo/{core,llm,tts,render,render-live2d,avatar}. 2) Copy model vào public/live2d/Name/. 3) createLive2DRenderer({canvas}) -> createRenderManager -> loadModel('.../Name.model3.json'). 4) createCharivo({renderer, llm: createLLMManager(remoteClient, {tools: createAvatarControlTools(catalog)}), tts, character}). 5) Server: /api/chat nhận {messages, tools} trả {success, message, toolCalls?}; /api/tts trả audio.
+- **Trạng thái xác minh:** Có sửa: chỉ client OpenClaw browser là dev-only; Node >= 22 khai báo ở @charivo/llm và repo root, không ở packages/server; PR #73 cho renderer tự cấp catalog; Iki MIT, 14 stars, 593 commit.
+- **Nguồn:** https://github.com/zeikar/charivo · https://registry.npmjs.org/@charivo%2Frender-live2d
 
 ### [Open-LLM-VTuber (+ Open-LLM-VTuber-Web)](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber)
-- **Loại:** Track A — app VTuber do LLM điều khiển (backend Python + frontend web/Electron)
-- **License / chi phí:** Backend MIT; frontend (từ v1.2.0) "Open-LLM-VTuber License 1.0": Apache-2.0 + điều kiện, miễn phí phi thương mại/streaming, SaaS/redistribution/nhúng sản phẩm cần license thương mại; backend sẽ theo sau (khoảng v1.3.0). Vendor Cubism Core theo điều khoản Live2D. Chạy local miễn phí.
-- **Nền tảng:** Backend Python (uv/pixi, Docker) trên Windows/macOS/Linux, GPU hoặc CPU-only, offline được; frontend web + Electron (React, Vite) có chế độ desktop pet.
-- **Hoạt động gần nhất:** Backend: commit 2026-05-15 (badge), chức năng cuối 2026-02-11; v1.2.1 2025-08-26; 14.0k stars, 1.7k forks, 913 commit. Web: 182 stars, commit cuối 2025-09-05. v1 chỉ sửa lỗi, v2 đang lên kế hoạch.
+- **Loại:** Track A — app VTuber do LLM điều khiển (Python backend + web/Electron)
+- **License / chi phí:** Backend MIT; frontend (từ v1.2.0) Open-LLM-VTuber License 1.0: Apache-2.0 + điều kiện, miễn phí phi thương mại/streaming, SaaS/nhúng sản phẩm cần license thương mại; backend sẽ theo (khoảng v1.3.0). Cubism Core theo điều khoản Live2D.
+- **Nền tảng:** Backend Python (uv, Docker) Windows/macOS/Linux, GPU hoặc CPU-only, offline được; frontend web + Electron (React, Vite) có desktop pet.
+- **Hoạt động gần nhất:** Backend: commit 2026-05-15, chức năng cuối 2026-02-11; v1.2.1 2025-08-26; 14.0k stars, 913 commit. Web: 182 stars, commit cuối 2025-09-05. v1 chỉ sửa lỗi, v2 đang lên kế hoạch.
 - **Hỗ trợ moc3:** Có (Cubism 3/4/5; Cubism 2 bị bỏ từ 1.2.0)
-- **Input -> Output:** Thư mục model trong live2d-models/ + entry model_dict.json (url, kScale, emotionMap, idleMotionGroupName, tapMotions); text, mic (VAD), ảnh camera -> avatar nói qua TTS với lipsync, expression theo tag cảm xúc, idle/Talk/tap motion; không xuất file.
-- **Cách hoạt động:** Backend mở WebSocket /client-ws; LLM nhận prompt chứa tag cảm xúc ("[joy]"), reply được cắt câu, tag trích thành actions.expressions, gửi message "audio" (base64, volumes RMS, display_text); frontend gọi setExpression/startMotion qua Cubism SDK for Web, miệng theo RMS -> ParamMouthOpenY.
-- **Cách dùng:** 1) Cài uv, clone repo (hoặc image Docker); uv run run_server.py. 2) Sửa conf.yaml: LLM (ollama_llm, openai_compatible...), ASR, TTS, API key. 3) Đặt model vào live2d-models/, thêm entry model_dict.json (emotionMap, idleMotionGroupName, tapMotions), đặt live2d_model_name trong conf.yaml. 4) Mở http://localhost:12393 hoặc build Electron (npm run build:win|mac|linux). 5) Frontend riêng: nối /client-ws, gửi {type:'text-input', text}, render message "audio".
-- **Trạng thái xác minh:** Có sửa: entry release "v1.0.1" gắn tag v1.0.0; ghi chú v1.2.0 nêu backend đổi license khoảng v1.3.0; release notes gọi thư viện cũ là pixi-live2d-display-lipsync (docs: lipsyncpatch).
+- **Input -> Output:** Model trong live2d-models/ + entry model_dict.json (emotionMap, idleMotionGroupName, tapMotions); text, mic, ảnh camera -> avatar nói qua TTS có lipsync, expression theo tag cảm xúc, idle/Talk/tap motion; không xuất file.
+- **Cách hoạt động:** WebSocket /client-ws: LLM nhận prompt có tag cảm xúc ("[joy]"), reply cắt câu, tag thành actions.expressions, gửi message "audio" (base64 + volumes RMS); frontend gọi setExpression/startMotion qua Cubism SDK for Web, miệng theo ParamMouthOpenY.
+- **Cách dùng:** 1) Cài uv, clone repo (hoặc Docker); uv run run_server.py. 2) Sửa conf.yaml: LLM, ASR, TTS, API key. 3) Đặt model vào live2d-models/, thêm entry model_dict.json, đặt live2d_model_name trong conf.yaml. 4) Mở http://localhost:12393 hoặc build Electron từ Open-LLM-VTuber-Web. 5) Frontend riêng: nối /client-ws, gửi {type:'text-input', text}, render message "audio".
+- **Trạng thái xác minh:** Có sửa: entry release v1.0.1 gắn tag v1.0.0; v1.2.0 nêu backend đổi license khoảng v1.3.0; release notes gọi thư viện cũ là pixi-live2d-display-lipsync (docs: lipsyncpatch).
 - **Nguồn:** https://github.com/Open-LLM-VTuber/Open-LLM-VTuber · https://github.com/Open-LLM-VTuber/Open-LLM-VTuber/releases
 
 ### [Project AIRI (moeru-ai/airi) + @proj-airi/unplugin-live2d-sdk](https://github.com/moeru-ai/airi)
-- **Loại:** Track A — stack AI companion/VTuber do LLM điều khiển với stage Live2D (và VRM)
-- **License / chi phí:** MIT (monorepo và unplugin-live2d-sdk). Cubism Core không vendor: Vite plugin tải CubismSdkForWeb-5-r.3.zip lúc build, nên Live2D Proprietary/Release License áp dụng cho bản build. Miễn phí; tự mang API key LLM/TTS/STT.
-- **Nền tảng:** Web (Vite + Vue, PWA, Dockerfile); desktop Electron macOS/Windows/Linux (winget, brew, nix); iOS thử nghiệm (Capacitor); pnpm monorepo, Vite 8.
-- **Hoạt động gần nhất:** commit 2026-10-09; v0.12.0-beta.5 2026-08-29 (v0.11.3 stable 2026-07-18); 4.640 commit, 50.2k stars, 5.0k forks. unplugin-live2d-sdk: npm 0.1.7 2026-04-14, 2 stars, 2 forks.
+- **Loại:** Track A — stack AI companion/VTuber do LLM điều khiển, stage Live2D (và VRM)
+- **License / chi phí:** MIT (monorepo và unplugin-live2d-sdk). Cubism Core không vendor: Vite plugin tải CubismSdkForWeb-5-r.3.zip lúc build, Live2D Proprietary/Release License áp dụng cho bản build. Miễn phí; tự mang API key.
+- **Nền tảng:** Web (Vite + Vue, PWA, Dockerfile); Electron macOS/Windows/Linux (winget, brew, nix); iOS thử nghiệm (Capacitor); pnpm monorepo, Vite 8.
+- **Hoạt động gần nhất:** commit 2026-10-09; v0.12.0-beta.5 2026-08-29 (v0.11.3 stable 2026-07-18); 4.640 commit, 50.2k stars. unplugin-live2d-sdk: npm 0.1.7 2026-04-14, 2 stars.
 - **Hỗ trợ moc3:** Có (qua pixi-live2d-display ^0.4.0 đã patch, build cubism4)
-- **Input -> Output:** Model Cubism theo URL hoặc .zip (kể cả archive VTube Studio, lưu OPFS); chat web/Telegram/Discord; mic STT; payload ACT {emotion} của LLM; tool expression_set/toggle/reset_all; biên độ TTS -> mouthOpenSize -> render trên canvas PixiJS (web, Electron, iOS); không xuất file.
-- **Cách hoạt động:** LLM (xsAI provider bất kỳ) trả lời kèm payload ACT có emotion, map sang motion group (Happy/Sad/.../Idle) play với MotionPriority.FORCE; tool expression_* đổi exp3 hoặc tham số thô; plugin motion-manager ghi ParamMouthOpenY từ biên độ TTS, kèm auto blink, idle focus.
-- **Cách dùng:** 1) git clone moeru-ai/airi && pnpm i && pnpm dev (DownloadLive2DSDK() tự tải Cubism SDK). 2) Trong UI chọn provider LLM và Speech/Transcription. 3) Upload zip model (model3.json, moc3, textures, exp3/motion3); map emotion sang motion group. 4) App Vite riêng: npm i -D @proj-airi/unplugin-live2d-sdk, thêm DownloadLive2DSDK() vào vite.config, cài pixi-live2d-display ^0.4.0 + patch, copy packages/stage-ui-live2d/src. 5) coreModel.setParameterValueById('ParamMouthOpenY', v); model.motion('Happy', 0, MotionPriority.FORCE).
-- **Trạng thái xác minh:** Có sửa: DownloadLive2DSDK({ from? }) cho phép đổi URL tải (README không ghi), chỉ tên thư mục CubismSdkForWeb-5-r.3 cố định; unplugin có 2 forks; constants/emotions.ts có ở cả stage-ui và stage-ui-live2d.
+- **Input -> Output:** Model Cubism theo URL hoặc .zip (kể cả archive VTube Studio); chat, mic STT; payload ACT {emotion} của LLM; tool expression_set/toggle/reset_all; biên độ TTS -> mouthOpenSize -> render trên canvas PixiJS; không xuất file.
+- **Cách hoạt động:** LLM trả lời kèm payload ACT có emotion, map sang motion group (Happy/Sad/.../Idle) play với MotionPriority.FORCE; tool expression_* đổi exp3 hoặc tham số thô; plugin motion-manager ghi ParamMouthOpenY từ biên độ TTS.
+- **Cách dùng:** 1) git clone moeru-ai/airi && pnpm i && pnpm dev (plugin tự tải Cubism SDK). 2) Trong UI chọn provider LLM/Speech; upload zip model, map emotion sang motion group. 3) App Vite riêng: npm i -D @proj-airi/unplugin-live2d-sdk, DownloadLive2DSDK() trong vite.config, pixi-live2d-display ^0.4.0 + patch, copy stage-ui-live2d/src. 4) model.motion('Happy', 0, MotionPriority.FORCE); setParameterValueById('ParamMouthOpenY', v).
+- **Trạng thái xác minh:** Có sửa: DownloadLive2DSDK({ from? }) cho phép đổi URL tải, chỉ tên thư mục CubismSdkForWeb-5-r.3 cố định; unplugin có 2 forks; constants/emotions.ts có ở cả stage-ui và stage-ui-live2d.
 - **Nguồn:** https://github.com/moeru-ai/airi · https://github.com/moeru-ai/airi/releases
 
 ## B — Tạo Live2D từ 1 ảnh PNG
@@ -526,63 +526,63 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 ### Category: assembly-runtime
 
 ### [Live2D Agent Kit (Ariakage/live2d-agent-kit)](https://github.com/Ariakage/live2d-agent-kit)
-- **Loại:** Track B — assembly-runtime (công thức cho coding agent tạo model Cubism từ PSD/PNG qua psd2live)
-- **License / chi phí:** Hỗn hợp: code/docs/prompt MIT; patch psd2live và *.kt GPL-3.0-only; Pink Sakura CC BY 4.0; Cubism Core, Web SDK, Upscayl (AGPL-3.0), MediaPipe không được phân phối. Miễn phí; tự lấy Cubism Core, Upscayl + weights và credit sinh ảnh để repaint vùng ẩn.
-- **Nền tảng:** Bash (Linux/macOS), Python 3.10+, JDK 21 (psd2live, Gradle), Node.js 22+; preview dùng Web Core 5.1.0 + pixi-live2d-display, validate dùng Native Core 6.0.257; đích VTube Studio.
+- **Loại:** Track B — assembly-runtime (công thức cho coding agent dựng model Cubism qua psd2live)
+- **License / chi phí:** Hỗn hợp: code/docs MIT; patch psd2live và *.kt GPL-3.0-only; Pink Sakura CC BY 4.0; Cubism Core, Upscayl (AGPL-3.0), MediaPipe không phân phối. Miễn phí; tự lấy Cubism Core, Upscayl và credit sinh ảnh để repaint vùng ẩn.
+- **Nền tảng:** Bash (Linux/macOS), Python 3.10+, JDK 21 (psd2live), Node.js 22+; preview dùng Web Core 5.1.0 + pixi-live2d-display, validate dùng Native Core 6.0.257; đích VTube Studio.
 - **Hoạt động gần nhất:** 9 commit đều ngày 2026-09-12; 25 stars, 1 fork, không release, không hoạt động sau đó.
 - **Hỗ trợ moc3:** Có (xuất .moc3/.model3.json/.cmo3 thật, kiểm tra bằng Cubism Core)
-- **Input -> Output:** (1) PSD qua extract-psd.sh; (2) PNG tách sẵn + manifest.json; (3) một PNG mà agent tự cắt layer, repaint vùng ẩn, đo mắt, viết manifest (không tự động) -> PSD, CMO3, .moc3, .model3.json, atlas (upscale 4x), physics, motion, expression; preview web MediaPipe.
-- **Cách hoạt động:** Công thức cho agent quanh psd2live đã patch (layer PNG có tên -> phân loại, mesh, bind tham số, physics, atlas): manifest 5 hệ toạ độ -> export-model.sh -> validate_core.sh với Cubism Core -> upscale atlas giữ MOC nguyên -> preview Playwright WebGL -> đóng gói.
-- **Cách dùng:** 1) Cài Git, Python 3.10+, JDK 21, Node 22+; clone; bash scripts/doctor.sh. 2) bash scripts/setup-psd2live.sh (tải psd2live pinned, áp patch). 3) Smoke test: export-model.sh với examples/minimal-model rồi validate.sh --model. 4) export CUBISM_CORE_DIR=...; bash scripts/validate_core.sh model.moc3 report.json; python3 scripts/package-model.py. 5) Đưa PNG/PSD cho coding agent với prompt README (SKILL.md, docs/workflow.md): agent cắt layer, viết manifest, export, sửa seam; import vào VTube Studio.
-- **Trạng thái xác minh:** Có sửa: preview WebGL dùng Web Core 5.1.0, validate dùng Native Core 6.0.257; Upscayl/upscayl-ncnn là công cụ ngoài AGPL-3.0; "1 contributor" không hiển thị trên repo, chưa xác minh.
+- **Input -> Output:** (1) PSD qua extract-psd.sh; (2) PNG tách sẵn + manifest.json; (3) một PNG mà agent tự cắt layer, repaint vùng ẩn, viết manifest (không tự động) -> PSD, CMO3, .moc3, .model3.json, atlas, physics, motion, expression; preview web.
+- **Cách hoạt động:** Công thức cho agent quanh psd2live đã patch (layer PNG có tên -> mesh, tham số, physics, atlas): manifest -> export-model.sh -> validate_core.sh với Cubism Core -> upscale atlas giữ MOC nguyên -> preview Playwright WebGL -> đóng gói.
+- **Cách dùng:** 1) Cài Python 3.10+, JDK 21, Node 22+; clone; bash scripts/doctor.sh. 2) bash scripts/setup-psd2live.sh (psd2live pinned + patch). 3) Smoke test với examples/minimal-model: export-model.sh, validate.sh; export CUBISM_CORE_DIR rồi validate_core.sh, package-model.py. 4) Đưa PNG/PSD cho coding agent với prompt README: agent cắt layer, viết manifest, export, sửa seam.
+- **Trạng thái xác minh:** Có sửa: preview dùng Web Core 5.1.0, validate dùng Native Core 6.0.257; Upscayl là công cụ ngoài AGPL-3.0; "1 contributor" không hiển thị trên repo, chưa xác minh.
 - **Nguồn:** https://github.com/Ariakage/live2d-agent-kit · https://raw.githubusercontent.com/Ariakage/live2d-agent-kit/main/docs/workflow.md
 
 ### [Live2D Master Agent (mw2wbyys6t-sudo/live2d-auto-pipeline)](https://github.com/mw2wbyys6t-sudo/live2d-auto-pipeline)
 - **Loại:** Track B — assembly-runtime (text -> ảnh -> layer -> compiler .moc3 tự viết)
-- **License / chi phí:** Apache-2.0 (compiler .moc3 tự reverse-engineer; tương thích điều khoản Live2D chưa xác minh). Miễn phí; sinh ảnh mặc định Pollinations.ai không cần key, tuỳ chọn Seedream/SenseNova/OpenAI-compatible; weights SAM ~2 GB; LLM chat cần OpenAI/Anthropic/Ollama.
-- **Nền tảng:** Python 3.9+ (core, api_server.py); Go 1.25.0 Gin REST/WebSocket; Next.js 16 + PixiJS 7 + pixi-live2d-display; Docker Compose; Windows install.bat; preview native cần live2d-py; desktop pet chỉ Windows; Tauri 2 vừa bắt đầu.
-- **Hoạt động gần nhất:** commit 2026-10-09 (Tauri 2); changelog v0.10.3 2026-10-08, v0.10.0 2026-09-22; commit từ ít nhất 2026-07-29; 1 GitHub Release (v10.1.0, 2026-09-22); 53 commit, 10 stars, 0 forks.
-- **Hỗ trợ moc3:** Có (compiler tự viết, qua Cubism Core consistency check; rotation deformer tĩnh)
-- **Input -> Output:** Text prompt (python -m core.cli generate "..."); README: chỉ sinh nhân vật mới từ mô tả, không ảnh -> model (đẩy PNG qua /api/upload là suy luận chưa xác minh) -> PNG, PSD 18 layer, gói model3.json + atlas + .moc3 + motion3 + physics, build_meta.json (runtime_ready/blocker); "dùng được nhưng thô".
-- **Cách hoạt động:** WorkflowEngine: Generate (router provider + QA) -> Segment (K-means/HSV hoặc SAM2+GroundingDINO thành 18 layer, inpaint OpenCV) -> Build (mesh Delaunay, deformer theo tên layer, 28 tham số, physics) -> Export bằng compiler moc3 tự viết, kiểm tra Cubism Core + pixel-diff (CI mặc định bỏ qua).
-- **Cách dùng:** 1) git clone; cp .env.example .env (API key tuỳ chọn hoặc Ollama). 2) pip install -r requirements.txt (tuỳ chọn psd-tools, download_models.py). 3) python -m core.cli generate "<mô tả>" -> output/ có PSD và gói moc3; xem build_meta.json. 4) Workbench: python api_server.py + cd web && npm run dev, hoặc docker compose up. 5) Kiểm tra: python -m drivers.live2d_runtime model.model3.json --parameter ParamAngleX=20 hoặc import VTube Studio.
-- **Trạng thái xác minh:** Có sửa: có 1 GitHub Release (v10.1.0, 2026-09-22); commit từ 2026-07-29; Go 1.25.0 theo go.mod; README nói rõ chỉ text -> nhân vật mới, không ảnh -> model; "4 release" là 4 phiên bản changelog.
-- **Nguồn:** https://github.com/mw2wbyys6t-sudo/live2d-auto-pipeline · https://raw.githubusercontent.com/mw2wbyys6t-sudo/live2d-auto-pipeline/main/docs/LIMITATIONS.md
+- **License / chi phí:** Apache-2.0 (compiler .moc3 tự reverse-engineer; tương thích điều khoản Live2D chưa xác minh). Miễn phí; sinh ảnh mặc định Pollinations.ai không cần key; weights SAM ~2 GB; LLM chat cần API key hoặc Ollama.
+- **Nền tảng:** Python 3.9+ (core, api_server.py); Go 1.25.0 Gin API; Next.js 16 + pixi-live2d-display; Docker Compose; preview native cần live2d-py; desktop pet chỉ Windows; Tauri 2 mới bắt đầu.
+- **Hoạt động gần nhất:** commit 2026-10-09 (Tauri 2); changelog v0.10.3 2026-10-08; commit từ ít nhất 2026-07-29; 1 GitHub Release (v10.1.0, 2026-09-22); 53 commit, 10 stars, 0 forks.
+- **Hỗ trợ moc3:** Có (compiler tự viết, qua Cubism Core check; rotation deformer tĩnh)
+- **Input -> Output:** Text prompt (core.cli generate); README: chỉ sinh nhân vật mới, không ảnh -> model (đẩy PNG qua /api/upload là suy luận chưa xác minh) -> PSD 18 layer, gói model3.json + atlas + .moc3 + motion3 + physics, build_meta.json; "dùng được nhưng thô".
+- **Cách hoạt động:** Generate (router provider + QA) -> Segment (K-means/HSV hoặc SAM2+GroundingDINO, 18 layer, inpaint OpenCV) -> Build (deformer theo tên layer, 28 tham số, physics) -> Export bằng compiler moc3 tự viết, kiểm tra Cubism Core + pixel-diff.
+- **Cách dùng:** 1) git clone; cp .env.example .env; pip install -r requirements.txt (tuỳ chọn psd-tools, download_models.py). 2) python -m core.cli generate "<mô tả>" -> output/ có PSD và gói moc3 (xem build_meta.json). 3) Workbench: python api_server.py + npm run dev trong web/, hoặc docker compose up. 4) Kiểm tra: drivers.live2d_runtime --parameter ParamAngleX=20 hoặc import VTube Studio.
+- **Trạng thái xác minh:** Có sửa: có 1 GitHub Release (v10.1.0, 2026-09-22); commit từ 2026-07-29; Go 1.25.0; README nói rõ chỉ text -> nhân vật mới, không ảnh -> model; "4 release" là 4 phiên bản changelog.
+- **Nguồn:** https://github.com/mw2wbyys6t-sudo/live2d-auto-pipeline
 
 ### [jpg-to-live2d-workflow (flowingduskpro) và live2d-auto-pipeline notes (daoming07280)](https://github.com/flowingduskpro/jpg-to-live2d-workflow)
 - **Loại:** Track B — assembly-runtime (ảnh -> See-Through -> PSD -> psd2live -> .moc3)
-- **License / chi phí:** Hai repo MIT. Upstream tự cài: See-Through Apache-2.0, psd2live GPL-3.0, weights NF4 (Hugging Face); Live2D terms áp dụng cho .moc3. Miễn phí nhưng cần Windows + GPU NVIDIA 8 GB VRAM.
-- **Nền tảng:** Chỉ Windows 10/11; CUDA 8 GB VRAM (RTX 4060 Laptop); Python 3.10+ (pack sd-webui-aki-v4.10) hoặc 3.11 + PyTorch 2.6.0; See-Through qua extension bên thứ ba sd-webui-see-through-main; psd2live portable v0.6.0/v0.7.1 (upstream nay 3.2.0).
-- **Hoạt động gần nhất:** flowingduskpro: 23 commit đều 2026-09-14, 4 stars; daoming07280: 7 commit 2026-09-16..18, 0 stars; không release. Upstream: See-Through commit 2026-10-05 (4.5k stars); psd2live v3.2.0 2026-10-09 (597 stars, 789 commit).
+- **License / chi phí:** Hai repo MIT. Upstream: See-Through Apache-2.0, psd2live GPL-3.0, weights NF4 (Hugging Face); Live2D terms áp dụng cho .moc3. Cần Windows + GPU NVIDIA 8 GB VRAM.
+- **Nền tảng:** Chỉ Windows 10/11; CUDA 8 GB VRAM; Python 3.10+ (pack sd-webui-aki-v4.10) hoặc 3.11; See-Through qua extension bên thứ ba sd-webui-see-through-main; psd2live portable v0.6.0/v0.7.1 (upstream 3.2.0).
+- **Hoạt động gần nhất:** flowingduskpro: 23 commit đều 2026-09-14, 4 stars; daoming07280: 7 commit 2026-09-16..18; không release. Upstream See-Through commit 2026-10-05 (4.5k stars), psd2live v3.2.0 2026-10-09 (597 stars).
 - **Hỗ trợ moc3:** Có (psd2live xuất .moc3/.model3.json/.physics3.json/.cmo3)
-- **Input -> Output:** Một ảnh JPG/PNG: dọc, thẳng, nền sạch, nửa thân, miệng phải mở (See-Through không sinh mắt nhắm/miệng đóng); preset 768/1024/1280 -> layer PNG + depth, PSD, report.html, 07_model .moc3 + model3.json + physics3.json + atlas 4096/8192 + .cmo3 cho VTube Studio.
-- **Cách hoạt động:** See-Through (SIGGRAPH 2026, LayerDiff3D + Marigold depth, NF4) tách ảnh thành tối đa 23 layer có depth; compose_psd.py xếp PSD, psd_fix_layers đổi tên theo chuẩn psd2live, psd_split_lash tách lông mi; psd2live auto-rig mesh, deformer, tham số, idle/blink, physics (768/20 ~6 phút, 5.36 GB VRAM).
-- **Cách dùng:** 1) Cài pack sd-webui-aki-v4.10 + extension sd-webui-see-through-main, weights NF4, psd2live portable (test v0.6.0/v0.7.1). 2) Clone repo, copy config.example.json -> config.json (see_through_script, psd2live_exe, vts_models_dir); chạy 重建环境.bat rồi 环境自检.bat. 3) python tools/launcher.py run <image> --preset standard (hoặc 拖入图片运行.bat). 4) Xem 05_preview/report.html, sửa layer rồi assemble-only; vts_install vào VTube Studio hoặc mở .cmo3 trong Cubism Editor.
-- **Trạng thái xác minh:** Có sửa: psd2live mới nhất v3.2.0 (2026-10-09), 789 commit; See-Through 409 forks; bước 1 dựa vào wrapper WebUI bên thứ ba không có trong upstream See-Through; mô tả auto-rig cũ của psd2live (jelly eyes, pendulum) không xác minh lại được.
+- **Input -> Output:** Một ảnh JPG/PNG: dọc, thẳng, nền sạch, nửa thân, miệng mở (không sinh được miệng đóng); preset 768/1024/1280 -> layer PNG + depth, PSD, report.html, .moc3 + model3.json + physics3.json + atlas + .cmo3 cho VTube Studio.
+- **Cách hoạt động:** See-Through (SIGGRAPH 2026, LayerDiff3D + Marigold, NF4) tách ảnh thành tối đa 23 layer có depth; compose_psd.py xếp PSD, psd_fix_layers đổi tên theo chuẩn psd2live; psd2live auto-rig mesh, deformer, tham số, idle/blink, physics (~6 phút ở 768/20).
+- **Cách dùng:** 1) Cài pack sd-webui-aki-v4.10 + sd-webui-see-through-main, weights NF4, psd2live portable. 2) Clone repo, copy config.example.json -> config.json (đường dẫn See-Through, psd2live, VTube Studio); chạy 重建环境.bat, 环境自检.bat. 3) python tools/launcher.py run <image> --preset standard. 4) Xem 05_preview/report.html, sửa layer, assemble-only; vts_install vào VTube Studio hoặc mở .cmo3 trong Cubism Editor.
+- **Trạng thái xác minh:** Có sửa: psd2live mới nhất v3.2.0 (2026-10-09), 789 commit; See-Through 409 forks; bước 1 dựa vào wrapper WebUI bên thứ ba không có trong upstream See-Through; mô tả auto-rig cũ chưa xác minh lại.
 - **Nguồn:** https://github.com/flowingduskpro/jpg-to-live2d-workflow · https://github.com/daoming07280/live2d-auto-pipeline
 
 ### [kokoro (@kokoro/rig)](https://github.com/marukun712/kokoro)
 - **Loại:** Track B — assembly-runtime (rig bằng code TypeScript/PixiJS, không phải Live2D)
 - **License / chi phí:** MIT (LICENSE repo và packages/rig/jsr.json). Miễn phí; module depth tải Depth-Anything-V2 ONNX (small/base/large) qua @huggingface/transformers lúc chạy.
-- **Nền tảng:** Chỉ browser (TypeScript/ESM): PixiJS 8.18 (PIXI.MeshPlane), ag-psd 30, zod 4; phân phối trên JSR (npx jsr add @kokoro/rig); depth chạy trong Web Worker; demo có MCP server. JSR score 52%, 3 download/tuần.
+- **Nền tảng:** Chỉ browser (TypeScript/ESM): PixiJS 8.18 (PIXI.MeshPlane), ag-psd 30, zod 4; phân phối trên JSR (npx jsr add @kokoro/rig); depth chạy trong Web Worker; demo có MCP server.
 - **Hoạt động gần nhất:** commit 2026-10-06; @kokoro/rig v0.10.0 trên JSR (29 phiên bản); 160 commit, 42 stars, 2 forks; bài Zenn 2026-06-13 và 2026-06-19.
-- **Hỗ trợ moc3:** Không (không import/export moc3, không tham số/motion/physics Cubism, không VTube Studio)
-- **Input -> Output:** (a) PSD nhiều layer qua walkPSD(url) + drawPSD(layers, 250, 250); (b) một PNG phẳng qua drawPNG(url) với parallax depth; (c) video qua drawVideo(url); không tự tách phần, không auto-rig -> không có file xuất; "model" là code TypeScript (Pose + animation) render trên canvas PixiJS.
-- **Cách hoạt động:** Mỗi layer PSD (hoặc PNG) thành PIXI.MeshPlane dày; mỗi frame Rig tính các hàm Pose (u,v) => {tx, ty, rot, pivot} theo UV, cộng kết quả và ghi vào vertex buffer tạo biến dạng mềm. Với ảnh phẳng, Depth-Anything-V2 chạy trong Web Worker và injectDepthToPose nhân dịch chuyển theo depth (2.5D); biểu cảm bằng Switcher bật tắt layer.
-- **Cách dùng:** 1) npx jsr add @kokoro/rig; const app = await setupCanvas(el). 2) const nodes = drawPSD(await walkPSD('/models/char.psd')) hoặc await drawPNG('/models/char.png'); thêm node.container vào app.stage. 3) Viết Pose (u,v) => ({tx, ty}) dùng curve.power2(getMeshPosition(u,v).fromTop); Switcher(nodes, ['目_閉じ','口_あ']) cho biểu cảm. 4) const rig = new Rig(nodes); app.ticker.add(() => rig.apply([lerpPose(T.left, T.right, mouseX)])). 5) Tuỳ chọn: injectDepthToPose cho 2.5D; AgentSeqSchema/resolveSeqExpr nhận animation JSON từ LLM.
+- **Hỗ trợ moc3:** Không (không import/export moc3, không tham số/motion/physics Cubism)
+- **Input -> Output:** (a) PSD nhiều layer qua walkPSD + drawPSD; (b) một PNG phẳng qua drawPNG với parallax depth; (c) video qua drawVideo; không tự tách phần, không auto-rig -> không file xuất; "model" là code TypeScript render trên canvas PixiJS.
+- **Cách hoạt động:** Mỗi layer PSD (hoặc PNG) thành PIXI.MeshPlane dày; mỗi frame Rig tính các hàm Pose (u,v) => {tx, ty, rot} và ghi vào vertex buffer tạo biến dạng mềm; với ảnh phẳng, Depth-Anything-V2 (Web Worker) + injectDepthToPose cho hiệu ứng 2.5D.
+- **Cách dùng:** 1) npx jsr add @kokoro/rig; app = await setupCanvas(el); nodes = drawPSD(await walkPSD(url)) hoặc await drawPNG(url). 2) Viết Pose (u,v) => ({tx, ty}) theo getMeshPosition(u,v); Switcher(nodes, [...]) cho biểu cảm. 3) rig = new Rig(nodes); app.ticker.add(() => rig.apply([lerpPose(T.left, T.right, mouseX)])). 4) Tuỳ chọn: injectDepthToPose (2.5D), AgentSeqSchema (animation JSON từ LLM).
 - **Trạng thái xác minh:** Đã xác minh
 - **Nguồn:** https://github.com/marukun712/kokoro · https://raw.githubusercontent.com/marukun712/kokoro/master/packages/rig/README.md
 
 ### [Textoon: Generating Vivid 2D Cartoon Characters from Text (Alibaba Tongyi)](https://github.com/Human3DAIGC/Textoon)
 - **Loại:** Track B — assembly-runtime (text -> vẽ texture vào template rig Live2D có sẵn)
-- **License / chi phí:** Không rõ: badge Apache-2.0 nhưng không có file LICENSE; README chỉ yêu cầu tuân thủ Free Material License của Live2D. Template rig "haimeng" bị gate bởi EULA chỉ cho giảng viên/sinh viên đại học, phi thương mại. Code miễn phí; cần GPU CUDA, ComfyUI + SDXL + ControlNet, dịch vụ dịch, parser Qwen.
-- **Nền tảng:** Linux/conda: ComfyUI commit 82c53085 (Python 3.10) + 8 custom node; Textoon Python 3.11 + torch 2.5.0; Gradio UI; Node.js cho live2d-chatbot-demo; mediapipe_live2d.py điều khiển bằng webcam.
-- **Hoạt động gần nhất:** commit cuối 2025-07-02; 14 commit từ 2025-01-17; 235 stars, 31 forks, 11 issue mở, không release; issue #16 (2025-11) và #17 (2026-01) chưa trả lời; arXiv 2501.10020.
+- **License / chi phí:** Không rõ: badge Apache-2.0 nhưng không có file LICENSE; README chỉ yêu cầu tuân thủ Free Material License của Live2D. Template "haimeng" gate bởi EULA chỉ cho đại học, phi thương mại. Code miễn phí; cần GPU CUDA.
+- **Nền tảng:** Linux/conda: ComfyUI commit 82c53085 (Python 3.10) + 8 custom node; Textoon Python 3.11 + torch 2.5.0; Gradio; Node.js cho live2d-chatbot-demo + mediapipe_live2d.py (webcam).
+- **Hoạt động gần nhất:** commit cuối 2025-07-02 (14 commit); 235 stars, 31 forks, 11 issue mở, không release; issue #16 (2025-11) và #17 (2026-01) chưa trả lời; arXiv 2501.10020.
 - **Hỗ trợ moc3:** Có (output là template moc3 "haimeng" đã rig với texture mới)
-- **Input -> Output:** Chỉ text prompt (Trung/Anh) qua main.py --text_prompt hoặc Gradio; không nhận PNG (issue #12: ảnh -> Live2D thuộc CartoonAlive, chưa có code) -> thư mục model female_01Arkit_6.model3.json + config.json + texture mới trên rig template; lip-sync tự điều khiển qua MouthOpenY/MouthForm + ARKit.
-- **Cách hoạt động:** Qwen2.5-1.5B fine-tune (TextoonPromptParsing) tách prompt thành thành phần (tóc, mắt, mặt, trang phục); SDXL + ControlNet-union vẽ từng thành phần trong contour template qua ComfyUI; ảnh được cắt vào layout atlas template nên dùng lại nguyên rig haimeng (~1 phút/nhân vật).
-- **Cách dùng:** 1) ComfyUI commit 82c53085 + 8 custom node, checkpoint SDXL/ControlNet; python main.py --listen; IP:port vào assets/model_configuration.json. 2) Env Python 3.11: torch 2.5.0 + requirements.txt; cấu hình translation_services; tải TextoonPromptParsing vào checkpoints/. 3) Ký EULA (email đại học), tải haimeng vào assets/haimeng/. 4) python main.py --text_prompt "<mô tả>" hoặc Gradio; xem output/ bằng Cubism Viewer hoặc live2d-chatbot-demo + mediapipe_live2d.py.
-- **Trạng thái xác minh:** Có sửa: trả lời trên #5/#6 (05/2025) là từ collaborator He-Chao, chỉ #12 (07/2025) từ tài khoản org; issue #6 chỉ nói config.json hỗ trợ tham số hình miệng, tên MouthOpenY/MouthForm + ARKit lấy từ paper.
+- **Input -> Output:** Chỉ text prompt qua main.py hoặc Gradio; không nhận PNG (issue #12: ảnh -> Live2D thuộc CartoonAlive, chưa có code) -> female_01Arkit_6.model3.json + config.json + texture mới trên rig template; lip-sync tự điều khiển (MouthOpenY/MouthForm + ARKit).
+- **Cách hoạt động:** Qwen2.5-1.5B (TextoonPromptParsing) tách prompt thành thành phần (tóc, mắt, mặt, trang phục); SDXL + ControlNet-union vẽ từng phần trong contour template qua ComfyUI; ảnh cắt vào atlas template nên giữ nguyên rig haimeng (~1 phút/nhân vật).
+- **Cách dùng:** 1) ComfyUI commit 82c53085 + 8 custom node + checkpoint SDXL/ControlNet; python main.py --listen; ghi IP:port vào model_configuration.json. 2) Python 3.11: torch 2.5.0 + requirements.txt; cấu hình dịch; TextoonPromptParsing vào checkpoints/. 3) Ký EULA (email đại học), tải haimeng vào assets/haimeng/. 4) python main.py --text_prompt "<mô tả>"; xem output/ bằng Cubism Viewer hoặc live2d-chatbot-demo.
+- **Trạng thái xác minh:** Có sửa: trả lời #5/#6 (05/2025) từ collaborator He-Chao, chỉ #12 (07/2025) từ tài khoản org; #6 chỉ nói config.json hỗ trợ tham số miệng, tên MouthOpenY/MouthForm + ARKit lấy từ paper.
 - **Nguồn:** https://github.com/Human3DAIGC/Textoon · https://raw.githubusercontent.com/Human3DAIGC/Textoon/main/assets/EULA.pdf
 
 ### Category: auto-rig
