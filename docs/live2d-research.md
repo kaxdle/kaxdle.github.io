@@ -500,25 +500,25 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 ### [Open-LLM-VTuber (+ Open-LLM-VTuber-Web)](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber)
 - **Loại:** Track A — app VTuber do LLM điều khiển (Python backend + web/Electron)
 - **License / chi phí:** Backend MIT; frontend (từ v1.2.0) Open-LLM-VTuber License 1.0: Apache-2.0 + điều kiện, miễn phí phi thương mại/streaming, SaaS/nhúng sản phẩm cần license thương mại; backend sẽ theo (khoảng v1.3.0). Cubism Core theo điều khoản Live2D.
-- **Nền tảng:** Backend Python (uv, Docker) Windows/macOS/Linux, GPU hoặc CPU-only, offline được; frontend web + Electron (React, Vite) có desktop pet.
-- **Hoạt động gần nhất:** Backend: commit 2026-05-15, chức năng cuối 2026-02-11; v1.2.1 2025-08-26; 14.0k stars, 913 commit. Web: 182 stars, commit cuối 2025-09-05. v1 chỉ sửa lỗi, v2 đang lên kế hoạch.
-- **Hỗ trợ moc3:** Có (Cubism 3/4/5; Cubism 2 bị bỏ từ 1.2.0)
-- **Input -> Output:** Model trong live2d-models/ + entry model_dict.json (emotionMap, idleMotionGroupName, tapMotions); text, mic, ảnh camera -> avatar nói qua TTS có lipsync, expression theo tag cảm xúc, idle/Talk/tap motion; không xuất file.
-- **Cách hoạt động:** WebSocket /client-ws: LLM nhận prompt có tag cảm xúc ("[joy]"), reply cắt câu, tag thành actions.expressions, gửi message "audio" (base64 + volumes RMS); frontend gọi setExpression/startMotion qua Cubism SDK for Web, miệng theo ParamMouthOpenY.
-- **Cách dùng:** 1) Cài uv, clone repo (hoặc Docker); uv run run_server.py. 2) Sửa conf.yaml: LLM, ASR, TTS, API key. 3) Đặt model vào live2d-models/, thêm entry model_dict.json, đặt live2d_model_name trong conf.yaml. 4) Mở http://localhost:12393 hoặc build Electron từ Open-LLM-VTuber-Web. 5) Frontend riêng: nối /client-ws, gửi {type:'text-input', text}, render message "audio".
-- **Trạng thái xác minh:** Có sửa: entry release v1.0.1 gắn tag v1.0.0; v1.2.0 nêu backend đổi license khoảng v1.3.0; release notes gọi thư viện cũ là pixi-live2d-display-lipsync (docs: lipsyncpatch).
+- **Nền tảng:** Backend Python (uv, Docker) Windows/macOS/Linux, GPU hoặc CPU-only, offline được; frontend web + Electron có desktop pet.
+- **Hoạt động gần nhất:** Backend: commit 2026-05-15, chức năng cuối 2026-02-11; v1.2.1 2025-08-26; 14.0k stars. Web: 182 stars, commit cuối 2025-09-05. v1 chỉ sửa lỗi, v2 đang lên kế hoạch.
+- **Hỗ trợ moc3:** Có (Cubism 3/4/5; Cubism 2 bị bỏ)
+- **Input -> Output:** Model trong live2d-models/ + entry model_dict.json (emotionMap, tapMotions...); text, mic, ảnh camera -> avatar nói qua TTS có lipsync, expression theo tag cảm xúc, idle/Talk/tap motion; không xuất file.
+- **Cách hoạt động:** WebSocket /client-ws: LLM nhận prompt có tag cảm xúc ("[joy]"), reply cắt câu, tag thành actions.expressions, gửi message "audio" (base64 + volumes RMS); frontend gọi setExpression/startMotion qua Cubism SDK for Web.
+- **Cách dùng:** 1) Cài uv, clone repo (hoặc Docker); uv run run_server.py. 2) Sửa conf.yaml: LLM, ASR, TTS, API key. 3) Đặt model vào live2d-models/, thêm entry model_dict.json, đặt live2d_model_name trong conf.yaml. 4) Mở http://localhost:12393 hoặc build Electron. 5) Frontend riêng: nối /client-ws, gửi {type:'text-input', text}, render "audio".
+- **Trạng thái xác minh:** Có sửa: entry release v1.0.1 gắn tag v1.0.0; v1.2.0 nêu backend đổi license khoảng v1.3.0; release notes gọi thư viện cũ là pixi-live2d-display-lipsync.
 - **Nguồn:** https://github.com/Open-LLM-VTuber/Open-LLM-VTuber · https://github.com/Open-LLM-VTuber/Open-LLM-VTuber/releases
 
 ### [Project AIRI (moeru-ai/airi) + @proj-airi/unplugin-live2d-sdk](https://github.com/moeru-ai/airi)
-- **Loại:** Track A — stack AI companion/VTuber do LLM điều khiển, stage Live2D (và VRM)
-- **License / chi phí:** MIT (monorepo và unplugin-live2d-sdk). Cubism Core không vendor: Vite plugin tải CubismSdkForWeb-5-r.3.zip lúc build, Live2D Proprietary/Release License áp dụng cho bản build. Miễn phí; tự mang API key.
-- **Nền tảng:** Web (Vite + Vue, PWA, Dockerfile); Electron macOS/Windows/Linux (winget, brew, nix); iOS thử nghiệm (Capacitor); pnpm monorepo, Vite 8.
-- **Hoạt động gần nhất:** commit 2026-10-09; v0.12.0-beta.5 2026-08-29 (v0.11.3 stable 2026-07-18); 4.640 commit, 50.2k stars. unplugin-live2d-sdk: npm 0.1.7 2026-04-14, 2 stars.
+- **Loại:** Track A — stack AI companion/VTuber do LLM điều khiển, stage Live2D/VRM
+- **License / chi phí:** MIT (monorepo và unplugin-live2d-sdk). Cubism Core không vendor: Vite plugin tải CubismSdkForWeb-5-r.3.zip lúc build nên Live2D Proprietary/Release License áp dụng. Miễn phí; tự mang API key.
+- **Nền tảng:** Web (Vite + Vue, PWA, Dockerfile); Electron macOS/Windows/Linux (winget, brew, nix); iOS thử nghiệm (Capacitor); Vite 8.
+- **Hoạt động gần nhất:** commit 2026-10-09; v0.12.0-beta.5 2026-08-29 (v0.11.3 stable 2026-07-18); 50.2k stars. unplugin-live2d-sdk: npm 0.1.7 2026-04-14, 2 stars.
 - **Hỗ trợ moc3:** Có (qua pixi-live2d-display ^0.4.0 đã patch, build cubism4)
-- **Input -> Output:** Model Cubism theo URL hoặc .zip (kể cả archive VTube Studio); chat, mic STT; payload ACT {emotion} của LLM; tool expression_set/toggle/reset_all; biên độ TTS -> mouthOpenSize -> render trên canvas PixiJS; không xuất file.
-- **Cách hoạt động:** LLM trả lời kèm payload ACT có emotion, map sang motion group (Happy/Sad/.../Idle) play với MotionPriority.FORCE; tool expression_* đổi exp3 hoặc tham số thô; plugin motion-manager ghi ParamMouthOpenY từ biên độ TTS.
-- **Cách dùng:** 1) git clone moeru-ai/airi && pnpm i && pnpm dev (plugin tự tải Cubism SDK). 2) Trong UI chọn provider LLM/Speech; upload zip model, map emotion sang motion group. 3) App Vite riêng: npm i -D @proj-airi/unplugin-live2d-sdk, DownloadLive2DSDK() trong vite.config, pixi-live2d-display ^0.4.0 + patch, copy stage-ui-live2d/src. 4) model.motion('Happy', 0, MotionPriority.FORCE); setParameterValueById('ParamMouthOpenY', v).
-- **Trạng thái xác minh:** Có sửa: DownloadLive2DSDK({ from? }) cho phép đổi URL tải, chỉ tên thư mục CubismSdkForWeb-5-r.3 cố định; unplugin có 2 forks; constants/emotions.ts có ở cả stage-ui và stage-ui-live2d.
+- **Input -> Output:** Model Cubism theo URL hoặc .zip (kể cả archive VTube Studio); chat, mic STT; payload ACT {emotion} của LLM; tool expression_set/toggle; biên độ TTS -> mouthOpenSize -> render trên canvas PixiJS; không xuất file.
+- **Cách hoạt động:** LLM trả lời kèm payload ACT có emotion, map sang motion group (Happy/Sad/.../Idle) với MotionPriority.FORCE; tool expression_* đổi exp3 hoặc tham số thô; plugin motion-manager ghi ParamMouthOpenY từ biên độ TTS.
+- **Cách dùng:** 1) git clone moeru-ai/airi && pnpm i && pnpm dev. 2) Trong UI chọn provider LLM/Speech; upload zip model, map emotion sang motion group. 3) App Vite riêng: npm i -D @proj-airi/unplugin-live2d-sdk + DownloadLive2DSDK() trong vite.config, pixi-live2d-display ^0.4.0, copy stage-ui-live2d/src. 4) model.motion('Happy', 0, MotionPriority.FORCE); setParameterValueById('ParamMouthOpenY', v).
+- **Trạng thái xác minh:** Có sửa: DownloadLive2DSDK({ from? }) cho phép đổi URL tải, chỉ tên thư mục CubismSdkForWeb-5-r.3 cố định; unplugin có 2 forks; emotions.ts có ở cả stage-ui và stage-ui-live2d.
 - **Nguồn:** https://github.com/moeru-ai/airi · https://github.com/moeru-ai/airi/releases
 
 ## B — Tạo Live2D từ 1 ảnh PNG
@@ -527,38 +527,38 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 
 ### [Live2D Agent Kit (Ariakage/live2d-agent-kit)](https://github.com/Ariakage/live2d-agent-kit)
 - **Loại:** Track B — assembly-runtime (công thức cho coding agent dựng model Cubism qua psd2live)
-- **License / chi phí:** Hỗn hợp: code/docs MIT; patch psd2live và *.kt GPL-3.0-only; Pink Sakura CC BY 4.0; Cubism Core, Upscayl (AGPL-3.0), MediaPipe không phân phối. Miễn phí; tự lấy Cubism Core, Upscayl và credit sinh ảnh để repaint vùng ẩn.
-- **Nền tảng:** Bash (Linux/macOS), Python 3.10+, JDK 21 (psd2live), Node.js 22+; preview dùng Web Core 5.1.0 + pixi-live2d-display, validate dùng Native Core 6.0.257; đích VTube Studio.
+- **License / chi phí:** Hỗn hợp: code/docs MIT; patch psd2live và *.kt GPL-3.0-only; Pink Sakura CC BY 4.0; Cubism Core, Upscayl (AGPL-3.0), MediaPipe không phân phối. Miễn phí; tự lấy Cubism Core, Upscayl và credit sinh ảnh.
+- **Nền tảng:** Bash (Linux/macOS), Python 3.10+, JDK 21 (psd2live), Node.js 22+; preview dùng Web Core 5.1.0 + pixi-live2d-display, validate dùng Native Core 6.0.257.
 - **Hoạt động gần nhất:** 9 commit đều ngày 2026-09-12; 25 stars, 1 fork, không release, không hoạt động sau đó.
 - **Hỗ trợ moc3:** Có (xuất .moc3/.model3.json/.cmo3 thật, kiểm tra bằng Cubism Core)
-- **Input -> Output:** (1) PSD qua extract-psd.sh; (2) PNG tách sẵn + manifest.json; (3) một PNG mà agent tự cắt layer, repaint vùng ẩn, viết manifest (không tự động) -> PSD, CMO3, .moc3, .model3.json, atlas, physics, motion, expression; preview web.
-- **Cách hoạt động:** Công thức cho agent quanh psd2live đã patch (layer PNG có tên -> mesh, tham số, physics, atlas): manifest -> export-model.sh -> validate_core.sh với Cubism Core -> upscale atlas giữ MOC nguyên -> preview Playwright WebGL -> đóng gói.
-- **Cách dùng:** 1) Cài Python 3.10+, JDK 21, Node 22+; clone; bash scripts/doctor.sh. 2) bash scripts/setup-psd2live.sh (psd2live pinned + patch). 3) Smoke test với examples/minimal-model: export-model.sh, validate.sh; export CUBISM_CORE_DIR rồi validate_core.sh, package-model.py. 4) Đưa PNG/PSD cho coding agent với prompt README: agent cắt layer, viết manifest, export, sửa seam.
-- **Trạng thái xác minh:** Có sửa: preview dùng Web Core 5.1.0, validate dùng Native Core 6.0.257; Upscayl là công cụ ngoài AGPL-3.0; "1 contributor" không hiển thị trên repo, chưa xác minh.
+- **Input -> Output:** (1) PSD qua extract-psd.sh; (2) PNG tách sẵn + manifest.json; (3) một PNG mà agent tự cắt layer, repaint vùng ẩn, viết manifest (không tự động) -> PSD, CMO3, .moc3, .model3.json, atlas, physics, motion; preview web.
+- **Cách hoạt động:** Công thức cho agent quanh psd2live đã patch (layer PNG có tên -> mesh, tham số, physics, atlas): manifest -> export-model.sh -> validate_core.sh với Cubism Core -> upscale atlas giữ MOC nguyên -> preview WebGL -> đóng gói.
+- **Cách dùng:** 1) Cài Python 3.10+, JDK 21, Node 22+; clone; bash scripts/doctor.sh. 2) bash scripts/setup-psd2live.sh (psd2live pinned + patch). 3) Smoke test với examples/minimal-model: export-model.sh, validate.sh; export CUBISM_CORE_DIR rồi validate_core.sh. 4) Đưa PNG/PSD cho coding agent với prompt README: agent cắt layer, viết manifest, export, sửa seam.
+- **Trạng thái xác minh:** Có sửa: preview dùng Web Core 5.1.0, validate dùng Native Core 6.0.257; Upscayl là công cụ ngoài AGPL-3.0; "1 contributor" chưa xác minh.
 - **Nguồn:** https://github.com/Ariakage/live2d-agent-kit · https://raw.githubusercontent.com/Ariakage/live2d-agent-kit/main/docs/workflow.md
 
 ### [Live2D Master Agent (mw2wbyys6t-sudo/live2d-auto-pipeline)](https://github.com/mw2wbyys6t-sudo/live2d-auto-pipeline)
 - **Loại:** Track B — assembly-runtime (text -> ảnh -> layer -> compiler .moc3 tự viết)
-- **License / chi phí:** Apache-2.0 (compiler .moc3 tự reverse-engineer; tương thích điều khoản Live2D chưa xác minh). Miễn phí; sinh ảnh mặc định Pollinations.ai không cần key; weights SAM ~2 GB; LLM chat cần API key hoặc Ollama.
-- **Nền tảng:** Python 3.9+ (core, api_server.py); Go 1.25.0 Gin API; Next.js 16 + pixi-live2d-display; Docker Compose; preview native cần live2d-py; desktop pet chỉ Windows; Tauri 2 mới bắt đầu.
-- **Hoạt động gần nhất:** commit 2026-10-09 (Tauri 2); changelog v0.10.3 2026-10-08; commit từ ít nhất 2026-07-29; 1 GitHub Release (v10.1.0, 2026-09-22); 53 commit, 10 stars, 0 forks.
+- **License / chi phí:** Apache-2.0 (compiler .moc3 tự reverse-engineer; tương thích điều khoản Live2D chưa xác minh). Miễn phí; sinh ảnh mặc định Pollinations.ai không cần key; weights SAM ~2 GB.
+- **Nền tảng:** Python 3.9+ (core, api_server.py); Go 1.25.0 Gin API; Next.js 16 + pixi-live2d-display; Docker Compose; preview native cần live2d-py; desktop pet chỉ Windows.
+- **Hoạt động gần nhất:** commit 2026-10-09 (Tauri 2); changelog v0.10.3 2026-10-08; commit từ 2026-07-29; 1 GitHub Release (v10.1.0, 2026-09-22); 53 commit, 10 stars.
 - **Hỗ trợ moc3:** Có (compiler tự viết, qua Cubism Core check; rotation deformer tĩnh)
-- **Input -> Output:** Text prompt (core.cli generate); README: chỉ sinh nhân vật mới, không ảnh -> model (đẩy PNG qua /api/upload là suy luận chưa xác minh) -> PSD 18 layer, gói model3.json + atlas + .moc3 + motion3 + physics, build_meta.json; "dùng được nhưng thô".
-- **Cách hoạt động:** Generate (router provider + QA) -> Segment (K-means/HSV hoặc SAM2+GroundingDINO, 18 layer, inpaint OpenCV) -> Build (deformer theo tên layer, 28 tham số, physics) -> Export bằng compiler moc3 tự viết, kiểm tra Cubism Core + pixel-diff.
-- **Cách dùng:** 1) git clone; cp .env.example .env; pip install -r requirements.txt (tuỳ chọn psd-tools, download_models.py). 2) python -m core.cli generate "<mô tả>" -> output/ có PSD và gói moc3 (xem build_meta.json). 3) Workbench: python api_server.py + npm run dev trong web/, hoặc docker compose up. 4) Kiểm tra: drivers.live2d_runtime --parameter ParamAngleX=20 hoặc import VTube Studio.
-- **Trạng thái xác minh:** Có sửa: có 1 GitHub Release (v10.1.0, 2026-09-22); commit từ 2026-07-29; Go 1.25.0; README nói rõ chỉ text -> nhân vật mới, không ảnh -> model; "4 release" là 4 phiên bản changelog.
+- **Input -> Output:** Text prompt (core.cli generate); README: chỉ sinh nhân vật mới, không ảnh -> model (đẩy PNG qua /api/upload chỉ là suy luận) -> PSD 18 layer, gói model3.json + atlas + .moc3 + motion3 + physics; "dùng được nhưng thô".
+- **Cách hoạt động:** Generate (router provider + QA) -> Segment (K-means/HSV hoặc SAM2+GroundingDINO, 18 layer) -> Build (deformer theo tên layer, 28 tham số, physics) -> Export bằng compiler moc3 tự viết, kiểm tra Cubism Core.
+- **Cách dùng:** 1) git clone; cp .env.example .env; pip install -r requirements.txt (tuỳ chọn psd-tools). 2) python -m core.cli generate "<mô tả>" -> output/ có PSD và gói moc3 (xem build_meta.json). 3) Workbench: python api_server.py + npm run dev trong web/, hoặc docker compose up. 4) Kiểm tra: drivers.live2d_runtime --parameter ParamAngleX=20 hoặc import VTube Studio.
+- **Trạng thái xác minh:** Có sửa: có 1 GitHub Release (v10.1.0, 2026-09-22); commit từ 2026-07-29; Go 1.25.0; README nói rõ chỉ text -> nhân vật mới; "4 release" là 4 phiên bản changelog.
 - **Nguồn:** https://github.com/mw2wbyys6t-sudo/live2d-auto-pipeline
 
 ### [jpg-to-live2d-workflow (flowingduskpro) và live2d-auto-pipeline notes (daoming07280)](https://github.com/flowingduskpro/jpg-to-live2d-workflow)
-- **Loại:** Track B — assembly-runtime (ảnh -> See-Through -> PSD -> psd2live -> .moc3)
-- **License / chi phí:** Hai repo MIT. Upstream: See-Through Apache-2.0, psd2live GPL-3.0, weights NF4 (Hugging Face); Live2D terms áp dụng cho .moc3. Cần Windows + GPU NVIDIA 8 GB VRAM.
-- **Nền tảng:** Chỉ Windows 10/11; CUDA 8 GB VRAM; Python 3.10+ (pack sd-webui-aki-v4.10) hoặc 3.11; See-Through qua extension bên thứ ba sd-webui-see-through-main; psd2live portable v0.6.0/v0.7.1 (upstream 3.2.0).
-- **Hoạt động gần nhất:** flowingduskpro: 23 commit đều 2026-09-14, 4 stars; daoming07280: 7 commit 2026-09-16..18; không release. Upstream See-Through commit 2026-10-05 (4.5k stars), psd2live v3.2.0 2026-10-09 (597 stars).
-- **Hỗ trợ moc3:** Có (psd2live xuất .moc3/.model3.json/.physics3.json/.cmo3)
-- **Input -> Output:** Một ảnh JPG/PNG: dọc, thẳng, nền sạch, nửa thân, miệng mở (không sinh được miệng đóng); preset 768/1024/1280 -> layer PNG + depth, PSD, report.html, .moc3 + model3.json + physics3.json + atlas + .cmo3 cho VTube Studio.
-- **Cách hoạt động:** See-Through (SIGGRAPH 2026, LayerDiff3D + Marigold, NF4) tách ảnh thành tối đa 23 layer có depth; compose_psd.py xếp PSD, psd_fix_layers đổi tên theo chuẩn psd2live; psd2live auto-rig mesh, deformer, tham số, idle/blink, physics (~6 phút ở 768/20).
-- **Cách dùng:** 1) Cài pack sd-webui-aki-v4.10 + sd-webui-see-through-main, weights NF4, psd2live portable. 2) Clone repo, copy config.example.json -> config.json (đường dẫn See-Through, psd2live, VTube Studio); chạy 重建环境.bat, 环境自检.bat. 3) python tools/launcher.py run <image> --preset standard. 4) Xem 05_preview/report.html, sửa layer, assemble-only; vts_install vào VTube Studio hoặc mở .cmo3 trong Cubism Editor.
-- **Trạng thái xác minh:** Có sửa: psd2live mới nhất v3.2.0 (2026-10-09), 789 commit; See-Through 409 forks; bước 1 dựa vào wrapper WebUI bên thứ ba không có trong upstream See-Through; mô tả auto-rig cũ chưa xác minh lại.
+- **Loại:** Track B — assembly-runtime (ảnh -> See-Through -> psd2live -> .moc3)
+- **License / chi phí:** Hai repo MIT. Upstream: See-Through Apache-2.0, psd2live GPL-3.0; Live2D terms áp dụng cho .moc3. Cần Windows + GPU NVIDIA 8 GB VRAM.
+- **Nền tảng:** Chỉ Windows 10/11; CUDA 8 GB VRAM; Python 3.10+ (pack sd-webui-aki-v4.10); See-Through qua extension bên thứ ba; psd2live portable v0.6.0/v0.7.1 (upstream 3.2.0).
+- **Hoạt động gần nhất:** flowingduskpro: 23 commit đều 2026-09-14, 4 stars; daoming07280: 7 commit 2026-09-16..18. Upstream See-Through commit 2026-10-05 (4.5k stars), psd2live v3.2.0 2026-10-09 (597 stars).
+- **Hỗ trợ moc3:** Có (psd2live xuất .moc3/.model3.json/.cmo3)
+- **Input -> Output:** Một ảnh JPG/PNG: dọc, nền sạch, nửa thân, miệng mở (không sinh được miệng đóng); -> layer PNG + depth, PSD, report.html, .moc3 + model3.json + physics3.json + .cmo3.
+- **Cách hoạt động:** See-Through (SIGGRAPH 2026, NF4) tách ảnh thành tối đa 23 layer có depth; compose_psd.py xếp PSD, psd_fix_layers đổi tên theo chuẩn psd2live; psd2live auto-rig mesh, deformer, tham số, physics.
+- **Cách dùng:** 1) Cài pack sd-webui-aki-v4.10 + sd-webui-see-through-main, weights NF4, psd2live portable. 2) Clone repo, copy config.example.json -> config.json (đường dẫn công cụ); chạy 重建环境.bat. 3) python tools/launcher.py run <image> --preset standard. 4) Xem 05_preview/report.html, sửa layer; vts_install vào VTube Studio hoặc mở .cmo3 trong Cubism Editor.
+- **Trạng thái xác minh:** Có sửa: psd2live mới nhất v3.2.0 (2026-10-09); See-Through 409 forks; bước 1 dựa vào wrapper sd-webui-see-through-main không có trong upstream; mô tả auto-rig cũ chưa xác minh lại.
 - **Nguồn:** https://github.com/flowingduskpro/jpg-to-live2d-workflow · https://github.com/daoming07280/live2d-auto-pipeline
 
 ### [kokoro (@kokoro/rig)](https://github.com/marukun712/kokoro)
@@ -574,15 +574,15 @@ Pipeline: **PNG → AI tách part → auto-rig → ghép Live2D → điều khi�
 - **Nguồn:** https://github.com/marukun712/kokoro · https://raw.githubusercontent.com/marukun712/kokoro/master/packages/rig/README.md
 
 ### [Textoon: Generating Vivid 2D Cartoon Characters from Text (Alibaba Tongyi)](https://github.com/Human3DAIGC/Textoon)
-- **Loại:** Track B — assembly-runtime (text -> vẽ texture vào template rig Live2D có sẵn)
-- **License / chi phí:** Không rõ: badge Apache-2.0 nhưng không có file LICENSE; README chỉ yêu cầu tuân thủ Free Material License của Live2D. Template "haimeng" gate bởi EULA chỉ cho đại học, phi thương mại. Code miễn phí; cần GPU CUDA.
-- **Nền tảng:** Linux/conda: ComfyUI commit 82c53085 (Python 3.10) + 8 custom node; Textoon Python 3.11 + torch 2.5.0; Gradio; Node.js cho live2d-chatbot-demo + mediapipe_live2d.py (webcam).
-- **Hoạt động gần nhất:** commit cuối 2025-07-02 (14 commit); 235 stars, 31 forks, 11 issue mở, không release; issue #16 (2025-11) và #17 (2026-01) chưa trả lời; arXiv 2501.10020.
-- **Hỗ trợ moc3:** Có (output là template moc3 "haimeng" đã rig với texture mới)
-- **Input -> Output:** Chỉ text prompt qua main.py hoặc Gradio; không nhận PNG (issue #12: ảnh -> Live2D thuộc CartoonAlive, chưa có code) -> female_01Arkit_6.model3.json + config.json + texture mới trên rig template; lip-sync tự điều khiển (MouthOpenY/MouthForm + ARKit).
-- **Cách hoạt động:** Qwen2.5-1.5B (TextoonPromptParsing) tách prompt thành thành phần (tóc, mắt, mặt, trang phục); SDXL + ControlNet-union vẽ từng phần trong contour template qua ComfyUI; ảnh cắt vào atlas template nên giữ nguyên rig haimeng (~1 phút/nhân vật).
-- **Cách dùng:** 1) ComfyUI commit 82c53085 + 8 custom node + checkpoint SDXL/ControlNet; python main.py --listen; ghi IP:port vào model_configuration.json. 2) Python 3.11: torch 2.5.0 + requirements.txt; cấu hình dịch; TextoonPromptParsing vào checkpoints/. 3) Ký EULA (email đại học), tải haimeng vào assets/haimeng/. 4) python main.py --text_prompt "<mô tả>"; xem output/ bằng Cubism Viewer hoặc live2d-chatbot-demo.
-- **Trạng thái xác minh:** Có sửa: trả lời #5/#6 (05/2025) từ collaborator He-Chao, chỉ #12 (07/2025) từ tài khoản org; #6 chỉ nói config.json hỗ trợ tham số miệng, tên MouthOpenY/MouthForm + ARKit lấy từ paper.
+- **Loại:** Track B — assembly-runtime (text -> texture lên template rig Live2D)
+- **License / chi phí:** Không rõ: badge Apache-2.0 nhưng không có file LICENSE, README chỉ yêu cầu tuân thủ Free Material License của Live2D. Template "haimeng" gate bởi EULA chỉ cho đại học, phi thương mại. Cần GPU CUDA.
+- **Nền tảng:** Linux/conda: ComfyUI commit 82c53085 (Python 3.10) + 8 custom node; Textoon Python 3.11 + torch 2.5.0; Gradio; Node.js cho web demo.
+- **Hoạt động gần nhất:** commit cuối 2025-07-02 (14 commit); 235 stars, 31 forks, không release; issue #16, #17 chưa trả lời; arXiv 2501.10020.
+- **Hỗ trợ moc3:** Có (template moc3 "haimeng" với texture mới)
+- **Input -> Output:** Chỉ text prompt qua main.py hoặc Gradio; không nhận PNG (issue #12: ảnh -> Live2D thuộc CartoonAlive, chưa có code) -> female_01Arkit_6.model3.json + config.json + texture mới (rig template); lip-sync tự điều khiển.
+- **Cách hoạt động:** Qwen2.5-1.5B (TextoonPromptParsing) tách prompt thành thành phần (tóc, mắt, trang phục); SDXL + ControlNet-union vẽ từng phần trong contour template qua ComfyUI; ảnh cắt vào atlas template nên giữ nguyên rig haimeng.
+- **Cách dùng:** 1) ComfyUI commit 82c53085 + 8 custom node + checkpoint SDXL/ControlNet; python main.py --listen; IP:port vào model_configuration.json. 2) Python 3.11: torch 2.5.0 + requirements.txt; TextoonPromptParsing vào checkpoints/. 3) Ký EULA (email đại học), tải haimeng vào assets/haimeng/. 4) python main.py --text_prompt "<mô tả>"; xem output/ bằng Cubism Viewer.
+- **Trạng thái xác minh:** Có sửa: trả lời #5/#6 từ collaborator He-Chao, chỉ #12 từ tài khoản org; #6 chỉ nói config.json hỗ trợ tham số miệng, tên MouthOpenY/MouthForm lấy từ paper.
 - **Nguồn:** https://github.com/Human3DAIGC/Textoon · https://raw.githubusercontent.com/Human3DAIGC/Textoon/main/assets/EULA.pdf
 
 ### Category: auto-rig
