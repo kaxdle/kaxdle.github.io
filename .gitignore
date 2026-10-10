@@ -16,3 +16,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/public/assets/live2d/samples
+/public/assets/live2d/core
+__pycache__/
