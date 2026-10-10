@@ -2,6 +2,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\Live2DController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +37,6 @@ Route::group(['middleware'=> 'admin_auth'], function () {
     // Route::get('/admin/coupons/update_password', [CouponController::class,'update_password'])->name('update_password');
 });
 Route::get('/logout', [AdminController::class,'logout'])->name('admin.logout');
+
+// Live2D playground (easy-live2d): /live2d?model=<Tên thư mục>
+Route::get('/live2d', [Live2DController::class, 'index'])->name('live2d');

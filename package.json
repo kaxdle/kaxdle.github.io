@@ -2,7 +2,10 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "live2d:core": "node scripts/live2d/setup-core.mjs",
+        "live2d:sample": "node scripts/live2d/fetch-sample.mjs",
+        "live2d:check": "node scripts/live2d/check-model.mjs"
     },
     "devDependencies": {
         "axios": "^1.1.2",
@@ -10,5 +13,9 @@
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "easy-live2d": "^1.0.0",
+        "pixi.js": "^8.22.0"
     }
 }
