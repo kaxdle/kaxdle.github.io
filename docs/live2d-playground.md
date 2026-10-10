@@ -39,85 +39,9 @@ Core và model mẫu nằm trong `.gitignore`, không được commit.
 
 ## 2. Biến Dania.png thành model
 
-### VRAM cần cho từng bước
+Quy trình đầy đủ nằm trong [`live2d-local-runbook.md`](live2d-local-runbook.md), viết để một session Claude Code chạy trên máy Windows của bạn đọc và làm theo. Runbook gồm: VRAM cần cho từng bước, cách cài và chạy See-through, kiểm tra và sửa PSD bằng `scripts/live2d/psd_inspect.py`, auto-rig bằng psd2live, nghiệm thu trên trang, cùng các kết quả nghiên cứu đáng giá nhất.
 
-| Bước | Chạy ở đâu | VRAM |
-|---|---|---|
-| See-through, mặc định bf16, 1280 px | GPU NVIDIA | 12–16 GB |
-| See-through với `--group_offload` | GPU NVIDIA | khoảng 10 GB |
-| See-through bản NF4 hoặc block swap | GPU NVIDIA | khoảng 8 GB |
-| psd2live: auto-rig và xuất `.moc3` | CPU, Java đóng gói sẵn | gần như không |
-| Trang `/live2d` trong trình duyệt | WebGL2 | vài trăm MB |
-
-Chỉ bước See-through cần nhiều VRAM. Tắt các LLM đang chạy local, ComfyUI hoặc ứng dụng GPU khác trước bước đó.
-
-### 2.0 Kiểm tra ảnh
-
-Ảnh cho kết quả tốt nhất khi:
-
-- Chỉ có một nhân vật, nhìn chính diện, đứng thẳng.
-- Nền trong suốt hoặc sạch.
-- **Miệng vẽ ở trạng thái mở.** psd2live coi layer miệng là độ mở tối đa và không thể tạo ra phần trong miệng nếu ảnh gốc khép miệng.
-- Tóc không che mắt. Kích thước khoảng 1280–2048 px.
-
-Nếu Dania đang khép miệng, hãy dùng một model chỉnh ảnh (ví dụ Qwen Image Edit trong ComfyUI) để vẽ thêm bản miệng mở và mắt nhắm. Sau đó thêm chúng vào PSD ở bước 2.2 với tên `mouth open` và `eye close`.
-
-### 2.1 Tách layer bằng See-through (cần VRAM)
-
-Cài một lần, trong Anaconda Prompt:
-
-```bat
-git clone https://github.com/shitagaki-lab/see-through
-cd see-through
-conda create -n see_through python=3.12 -y
-conda activate see_through
-pip install torch==2.8.0+cu128 torchvision==0.23.0+cu128 torchaudio==2.8.0+cu128 --index-url https://download.pytorch.org/whl/cu128
-pip install -r requirements.txt
-xcopy /E /I common\assets assets
-```
-
-Chạy, chọn một dòng theo VRAM còn trống:
-
-```bat
-:: 16 GB trở lên
-python inference/scripts/inference_psd.py --srcp "D:\LLM_AREA\L2d Creator\Dania.png" --save_to_psd
-:: khoảng 12 GB
-python inference/scripts/inference_psd.py --srcp "D:\LLM_AREA\L2d Creator\Dania.png" --save_to_psd --group_offload
-:: khoảng 8 GB (cài thêm bitsandbytes một lần)
-pip install -r requirements-inference-bnb.txt
-python inference/scripts/inference_psd_quantized.py --srcp "D:\LLM_AREA\L2d Creator\Dania.png" --save_to_psd
-```
-
-Kết quả nằm trong `workspace\layerdiff_output\`, gồm file PSD tối đa 23 layer. Nếu không có GPU, dùng [HF Space demo](https://huggingface.co/spaces/24yearsold/see-through-demo), mỗi ngày được 1–2 lần. Các lệnh trên lấy từ README của See-through. Chúng chưa được chạy thử trên Windows trong phiên làm việc này.
-
-### 2.2 Sửa PSD
-
-Mở PSD trong Photoshop, Krita hoặc Photopea. Đối chiếu tên layer với [quy ước của psd2live](https://github.com/tsunehimatoi/psd2live/blob/master/docs/zh/spec/PSD_LAYER_SPEC.md):
-
-- **Tên layer:** dùng `back hair`, `front hair`, `face`, `eyewhite`, `irides`, `eyelash`, `eyebrow`, `mouth`, `nose`, `neck`, `topwear`… Tên tiếng Trung và tiếng Nhật cũng được nhận.
-- **Mắt:** `eyelash` chỉ chứa mi trên. Thứ tự từ dưới lên là `eyewhite`, `irides`, `eyelash`. Tách trái và phải bằng `eyelash-l` và `eyelash-r`, theo phía của nhân vật chứ không theo phía màn hình.
-- **Miệng:** `mouth` là miệng mở hết cỡ. Có thể tách thêm `tooth-t`, `tooth-b`, `tongue`.
-- **Rác:** xoá layer thừa See-through sinh nhầm, ví dụ tai không có thật.
-
-### 2.3 Auto-rig và xuất .moc3 bằng psd2live
-
-1. Tải `PSD2Live-3.3.0.exe` hoặc bản portable zip từ [trang release](https://github.com/tsunehimatoi/psd2live/releases). Bản này đóng gói sẵn Java.
-2. Chọn **File → Import → New project from PSD…** (`Ctrl+Shift+O`). Chọn preset **Full** để có rig đầu và mặt đầy đủ.
-3. Kiểm tra bảng Layers, sửa phần nào bị nhận sai loại hoặc sai bên.
-4. Chuyển sang Preview, thử chớp mắt, mở miệng, quay đầu và vật lý tóc.
-5. Bấm `Ctrl+S` để lưu project `.psd2live`. Đây là file gốc để sửa tiếp về sau.
-6. Bấm `Ctrl+G` để xuất Cubism. Giữ target mặc định 5.0; Core R5 đọc được tới 5.3.
-
-### 2.4 Đưa model vào trang /live2d
-
-```bat
-xcopy /E /I "<thư mục psd2live vừa xuất>" public\assets\live2d\models\Dania
-npm run live2d:check -- public/assets/live2d/models/Dania
-```
-
-Lệnh kiểm tra báo file thiếu, phiên bản `.moc3`, kích thước texture, và các nhóm Idle, LipSync, EyeBlink mà trang cần. Nếu không có lỗi ✖, mở `http://127.0.0.1:8000/live2d?model=Dania`. Tên thư mục chính là tên model trong danh sách.
-
-`public/assets/live2d/models/` được commit vào repo, khác với thư mục mẫu. Chỉ commit model khi bạn có quyền với ảnh gốc của Dania.
+Tóm tắt: See-through tách `Dania.png` thành PSD nhiều layer, đây là bước duy nhất cần nhiều VRAM, khoảng 8–16 GB. psd2live auto-rig và xuất `.moc3` trên CPU. Thư mục model cuối cùng được chép vào `public/assets/live2d/models/Dania/`, rồi mở `/live2d?model=Dania`.
 
 ## 3. Lỗi thường gặp
 
@@ -126,6 +50,6 @@ Lệnh kiểm tra báo file thiếu, phiên bản `.moc3`, kích thước textur
 | Báo "Không tải được Cubism Core" hoặc "Cubism Core quá cũ" | Chạy `npm run live2d:core -- --accept-license`, hoặc sửa `LIVE2D_CORE_URL` trong `.env` |
 | Danh sách model trống | Chạy `npm run live2d:sample -- --accept-license` hoặc chép model vào `public/assets/live2d/models/` |
 | Phát âm thanh mà miệng không động | Chạy `live2d:check`; model cần nhóm `LipSync` trong `model3.json` |
-| Model đứng im, không có motion idle | Model cần nhóm motion tên `Idle` |
+| Model đứng im, không có motion idle | Model cần một nhóm motion có tên chứa "idle" |
 | Trang trắng, lỗi WebGL | easy-live2d cần WebGL2; thử Chrome hoặc Edge bản mới |
 | Không thấy thay đổi sau khi sửa JS | Chạy lại `npm run build`, hoặc dùng `npm run dev` |

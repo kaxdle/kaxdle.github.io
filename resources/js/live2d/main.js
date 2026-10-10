@@ -160,6 +160,8 @@ async function loadModel(url) {
       return
     enableVoiceLipSync(sprite)
     state.settings = settings
+    // Trang tự phát nhóm motion idle khi model rảnh; nhận cả tên như "idle" hay "Idle_01".
+    Config.MotionGroupIdle = Object.keys(settings.FileReferences?.Motions ?? {}).find(g => /idle/i.test(g)) ?? 'Idle'
     state.lipSyncIds = (settings.Groups ?? []).find(g => g.Name === 'LipSync')?.Ids ?? []
     renderMotions(sprite)
     renderExpressions(sprite)

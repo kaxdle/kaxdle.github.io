@@ -75,10 +75,11 @@ for (const tex of ref.Textures ?? []) {
 
 const groups = Object.fromEntries((model.Groups ?? []).map(g => [g.Name, g.Ids ?? []]))
 const motions = ref.Motions ?? {}
-if (motions.Idle?.length)
-  ok.push(`Nhóm motion Idle: ${motions.Idle.length} motion`)
+const idleGroup = Object.keys(motions).find(g => /idle/i.test(g))
+if (idleGroup && motions[idleGroup].length)
+  ok.push(`Nhóm motion idle "${idleGroup}": ${motions[idleGroup].length} motion`)
 else
-  warnings.push(`Không có nhóm motion "Idle" (có: ${Object.keys(motions).join(', ') || 'không có'}). Trang /live2d tự phát nhóm Idle khi rảnh.`)
+  warnings.push(`Không có nhóm motion nào tên chứa "idle" (có: ${Object.keys(motions).join(', ') || 'không có'}). Model sẽ đứng yên khi rảnh.`)
 if (groups.LipSync?.length)
   ok.push(`LipSync: ${groups.LipSync.join(', ')}`)
 else
