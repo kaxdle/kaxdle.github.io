@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 /public/assets/live2d/samples
 /public/assets/live2d/core
+__pycache__/
